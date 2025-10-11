@@ -121,3 +121,8 @@ docs/_build/
 
 # Admin credentials (if any)
 admin_config.py
+
+# Docker
+.docker/
+
+# Cloud deployment - Note: .gcloudignore and .dockerignore should be tracked

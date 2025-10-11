@@ -1,0 +1,39 @@
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/enneagram-app/enneagram-app:latest'
+      - '.'
+
+  # Push the Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/enneagram-app/enneagram-app:latest'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'enneagram-app'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/enneagram-app/enneagram-app:latest'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--service-account'
+      - 'enneagram-run@$PROJECT_ID.iam.gserviceaccount.com'
+      - '--set-env-vars'
+      - 'DEBUG=false'
+      - '--set-secrets'
+      - 'ADMIN_PASS=admin-password:latest,SECRET_KEY=secret-key:latest'
+
+# Cloud Build options
+options:
+  substitution_option: ALLOW_LOOSE

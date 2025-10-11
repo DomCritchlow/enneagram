@@ -1,0 +1,41 @@
+# This file specifies files that are *not* uploaded to Google Cloud
+# for builds. Similar to .gitignore but for Cloud Build
+
+.gcloudignore
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+enn_venv/
+venv/
+.venv
+env/
+
+# Database and logs (created in container)
+app/results.sqlite
+app/logs/
+*.log
+
+# Development files
+README.md
+*.md
+LICENSE
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*

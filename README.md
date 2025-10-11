@@ -165,7 +165,9 @@ Edit either file to modify questions:
 
 ## Deployment
 
-For production deployment:
+### Local Production
+
+For local production deployment:
 
 1. Set strong admin password in environment
 2. Configure secure secret key  
@@ -175,6 +177,88 @@ For production deployment:
 ```bash
 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
 ```
+
+### Docker
+
+Build and run with Docker:
+
+```bash
+# Build the image
+docker build -t enneagram-app .
+
+# Run the container
+docker run -p 8080:8080 \
+  -e ADMIN_PASS=your-secure-password \
+  -e SECRET_KEY=your-secret-key \
+  -e DEBUG=false \
+  enneagram-app
+```
+
+### Google Cloud Run
+
+#### Prerequisites
+
+1. Install [Google Cloud CLI](https://cloud.google.com/sdk/docs/install)
+2. Authenticate: `gcloud auth login`
+3. Set your project: `gcloud config set project YOUR_PROJECT_ID`
+
+#### Automated Deployment
+
+Use the provided deployment script:
+
+```bash
+# Make script executable (if not already)
+chmod +x deploy.sh
+
+# Deploy to Cloud Run
+./deploy.sh [YOUR_PROJECT_ID]
+```
+
+The script will:
+- Create required secrets in Secret Manager
+- Enable necessary APIs
+- Set up IAM permissions
+- Build and deploy using Cloud Build
+- Output the service URL
+
+#### Manual Deployment
+
+1. **Create secrets in Secret Manager:**
+
+```bash
+# Create admin password secret
+echo "your-secure-password" | gcloud secrets create admin-password --data-file=-
+
+# Create secret key
+python3 -c "import secrets; print(secrets.token_urlsafe(32))" | gcloud secrets create secret-key --data-file=-
+```
+
+2. **Enable required APIs:**
+
+```bash
+gcloud services enable cloudbuild.googleapis.com
+gcloud services enable run.googleapis.com
+gcloud services enable containerregistry.googleapis.com
+gcloud services enable secretmanager.googleapis.com
+```
+
+3. **Deploy with Cloud Build:**
+
+```bash
+gcloud builds submit --config cloudbuild.yaml
+```
+
+#### Configuration
+
+The Cloud Run deployment uses:
+- **Container Port:** 8080 (automatically set by Cloud Run's PORT environment variable)
+- **Memory:** 1 GiB (default)
+- **CPU:** 1 vCPU (default)
+- **Concurrency:** 80 requests per instance (default)
+- **Min instances:** 0 (scales to zero when not in use)
+- **Max instances:** 10 (configurable)
+
+Environment variables are managed through Google Secret Manager for security.
 
 ## License
 

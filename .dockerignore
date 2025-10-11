@@ -1,0 +1,61 @@
+# Virtual environments
+enn_venv/
+venv/
+ENV/
+env/
+.venv
+.ENV
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs (will be created in container)
+app/logs/
+*.log
+
+# Database (will be created in container)
+app/results.sqlite
+*.db
+*.sqlite
+*.sqlite3
+
+# Documentation and development files
+README.md
+LICENSE
+*.md
+
+# Environment files (we copy env.example as .env in Dockerfile)
+.env
+.env.local
+.env.production
+
+# Development and build artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+temp/
