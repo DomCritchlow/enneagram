@@ -1,48 +1,38 @@
 # Enneagram Team Assessment
 
-A modern, clean web application for conducting Enneagram personality assessments within teams. Built with FastAPI and designed for simplicity, privacy, and professional use.
+A web application for conducting Enneagram personality assessments within teams. Built with FastAPI for simplicity and professional use.
 
-![Enneagram Assessment](https://via.placeholder.com/800x400/4F46E5/FFFFFF?text=Enneagram+Team+Assessment)
+## Features
 
-## ✨ Features
-
-### 🎯 **Progressive Quiz Experience**
-- Clean, minimal interface with calming design
+**Quiz Experience**
 - Progressive question flow (3 questions per page)
+- 54 comprehensive questions for accurate assessment
+- Mobile-responsive interface
 - Real-time progress tracking
-- Mobile-responsive design
 
-### 📊 **Rich Results Visualization**
+**Results & Visualization**
 - Interactive spider chart showing personality profile
-- Prominent main type display with professional SVG icons
+- SVG icons for each personality type
 - Wing analysis (highest wing displayed)
-- Professional personality insights
+- Individual result pages with delete tokens
 
-### 🔒 **Privacy & Security**
+**Privacy & Security**
 - Secure delete tokens for result removal
-- No duplicate name restrictions - full privacy
 - Bcrypt password hashing for admin functions
-- CSRF protection and input sanitization
+- Input sanitization and validation
+- Local data storage
 
-### 🎨 **Modern UI/UX**
-- Beautiful SVG icons for each personality type
-- Responsive design for all devices
-- Dark/light theme ready
-- Smooth animations and transitions
-
-### 📈 **Administrative Features**
+**Administration**
 - CSV export of all results
+- Admin dashboard with secure authentication
 - Comprehensive logging system
-- Admin dashboard with analytics
-- Secure authentication
 
-### 🔧 **Developer Features**
+**Development**
 - Dual question sets (54 full / 9 debug questions)
-- Environment-based configuration switching
+- Environment-based configuration
 - Fast development testing mode
-- Comprehensive error handling and logging
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -68,59 +58,18 @@ A modern, clean web application for conducting Enneagram personality assessments
    pip install -r requirements.txt
    ```
 
-4. **Set up environment (optional)**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your preferred settings
-   ```
-
-5. **Run the application**
+4. **Run the application**
    ```bash
    cd app
    uvicorn main:app --reload --host 0.0.0.0 --port 8000
    ```
 
-6. **Access the application**
+5. **Access the application**
    - Main app: http://localhost:8000
    - Types overview: http://localhost:8000/types
-   - Admin (default): http://localhost:8000/admin (admin/change-me-please)
+   - Admin: http://localhost:8000/admin (admin/change-me-please)
 
-## 📁 Project Structure
-
-```
-enneagram/
-├── app/                    # Main application directory
-│   ├── api/               # FastAPI route handlers
-│   │   ├── admin.py       # Admin dashboard and CSV export
-│   │   └── quiz.py        # Quiz flow and results
-│   ├── core/              # Core functionality
-│   │   ├── config.py      # Configuration management
-│   │   ├── logging.py     # Centralized logging
-│   │   └── security.py    # Security utilities
-│   ├── models/            # Data models
-│   │   ├── database.py    # SQLAlchemy models
-│   │   └── schemas.py     # Pydantic schemas
-│   ├── services/          # Business logic
-│   │   └── quiz_service.py # Quiz processing and scoring
-│   ├── static/            # Static assets
-│   │   └── style.css      # Application styles
-│   ├── templates/         # Jinja2 templates
-│   │   ├── base.html      # Base template
-│   │   ├── index.html     # Quiz interface
-│   │   ├── results.html   # Results display
-│   │   └── types.html     # Types overview
-│   ├── questions.json     # Full Enneagram questions (54 questions)
-│   ├── questions_short.json # Debug questions (9 questions)
-│   ├── type_blurbs.json   # Type descriptions and SVG icons
-│   └── main.py           # FastAPI application entry point
-├── requirements.txt       # Python dependencies
-├── .gitignore            # Git ignore rules
-└── README.md            # This file
-```
-
-## ⚙️ Configuration
-
-### Environment Variables
+## Configuration
 
 Create a `.env` file in the root directory:
 
@@ -138,54 +87,23 @@ APP_TITLE=Enneagram Team Assessment
 DATABASE_URL=sqlite:///app/results.sqlite
 ```
 
-### Security Notes
+**Important**: Change the default admin password before deployment. The application will refuse to start in production with the default password.
 
-- **Change the default admin password** before deployment
-- The application will refuse to start in production with the default password
-- All user inputs are sanitized and validated
-- Delete tokens use cryptographically secure random generation
+## Usage
 
-## 🎯 Usage
+**For Participants**
+1. Enter your name and take the 54-question assessment
+2. View results showing your primary type, wing analysis, and spider chart
+3. Use the provided delete token to remove your data anytime
 
-### For Participants
+**For Administrators**
+1. Access admin panel at http://localhost:8000/admin
+2. Export CSV data with all results and type scores
+3. Monitor application logs and quiz completions
 
-1. **Take the Assessment**
-   - Enter your name (no duplicates required)
-   - Answer questions honestly on a 1-5 scale
-   - Progress through 3 questions per page
+## About the Enneagram
 
-2. **View Results**
-   - See your primary Enneagram type
-   - Explore your personality profile via spider chart
-   - Review wing analysis
-   - Save your unique delete link for privacy
-
-3. **Manage Your Data**
-   - Use the delete token to remove results anytime
-   - All deletions are permanent and logged
-
-### For Administrators
-
-1. **Access Admin Panel**
-   ```
-   http://localhost:8006/admin
-   ```
-
-2. **Export Data**
-   - Download CSV with all results
-   - Includes type scores and metadata
-   - Excludes personal identifiers for privacy
-
-3. **Monitor Activity**
-   - View application logs
-   - Track quiz completions
-   - Monitor system health
-
-## 🧠 About the Enneagram
-
-The Enneagram is a powerful personality typing system that describes nine distinct personality types. Each type represents a different pattern of thinking, feeling, and behaving.
-
-### The Nine Types
+The Enneagram describes nine personality types, each representing different patterns of thinking, feeling, and behaving:
 
 1. **Reformer** - Principled, purposeful, self-controlled
 2. **Helper** - Empathic, interpersonal, people-pleasing
@@ -197,7 +115,7 @@ The Enneagram is a powerful personality typing system that describes nine distin
 8. **Challenger** - Self-confident, decisive, willful
 9. **Peacemaker** - Receptive, reassuring, complacent
 
-## 🛠️ Development
+## Development
 
 ### Running in Development
 
@@ -245,68 +163,19 @@ Edit either file to modify questions:
 }
 ```
 
-## 📋 API Endpoints
+## Deployment
 
-### Public Endpoints
-- `GET /` - Quiz interface
-- `GET /types` - Enneagram types overview
-- `GET /results` - Results display (requires token)
-- `POST /submit` - Submit quiz responses
-- `GET /delete/{token}` - Delete results by token
+For production deployment:
 
-### Admin Endpoints
-- `GET /admin` - Admin dashboard
-- `POST /admin/login` - Admin authentication
-- `GET /admin/export` - CSV export
-
-### API Endpoints
-- `GET /api/questions` - Get quiz questions
-- `GET /api/health` - Application health check
-
-## 🔧 Deployment
-
-### Production Checklist
-
-- [ ] Set strong admin password in environment
-- [ ] Configure secure secret key
-- [ ] Set `DEBUG=false`
-- [ ] Set up proper database (PostgreSQL recommended for production)
-- [ ] Configure HTTPS
-- [ ] Set up log rotation
-- [ ] Configure backup strategy
-
-### Example Production Command
+1. Set strong admin password in environment
+2. Configure secure secret key  
+3. Set `DEBUG=false`
+4. Use a production WSGI server:
 
 ```bash
 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
 ```
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Enneagram Institute for the personality type system
-- FastAPI team for the excellent web framework
-- The open source community for the tools and libraries used
-
-## 🚀 What's Next?
-
-- [ ] Team comparison analytics  
-- [ ] PDF report generation
-- [ ] Integration with HR systems
-- [ ] Multi-language support
-- [ ] Advanced personality insights
-- [ ] Question validation and psychometric testing
-- [ ] Custom question sets for different contexts
-
-
