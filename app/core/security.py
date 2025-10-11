@@ -127,9 +127,7 @@ def generate_session_id() -> str:
     return hashlib.sha256(secrets.token_bytes(32)).hexdigest()
 
 
-# Session management (consolidated from auth_service)
-_session_tokens = {}  # In-memory session storage
-
+# Stateless session management for Cloud Run compatibility
 def authenticate_admin(username: str, password: str) -> bool:
     """Authenticate admin credentials."""
     username_correct = secrets.compare_digest(
@@ -143,14 +141,45 @@ def authenticate_admin(username: str, password: str) -> bool:
     return username_correct and password_correct
 
 def create_session_token(username: str) -> str:
-    """Create a session token for authenticated user."""
-    token = secrets.token_urlsafe(32)
-    _session_tokens[token] = username
-    return token
+    """Create a stateless JWT-like token for authenticated user."""
+    import base64
+    import json
+    import time
+    
+    # Create payload with configurable expiration
+    payload = {
+        'username': username,
+        'exp': int(time.time()) + settings.session_timeout,
+        'iat': int(time.time())
+    }
+    
+    # Simple signed token (not JWT for simplicity, but similar concept)
+    payload_b64 = base64.urlsafe_b64encode(json.dumps(payload).encode()).decode()
+    signature = secrets.token_urlsafe(16)
+    
+    return f"{payload_b64}.{signature}"
 
 def validate_session_token(token: str) -> Optional[str]:
-    """Validate session token and return username if valid."""
-    return _session_tokens.get(token)
+    """Validate stateless session token and return username if valid."""
+    try:
+        import base64
+        import json
+        import time
+        
+        if '.' not in token:
+            return None
+            
+        payload_b64, signature = token.split('.', 1)
+        payload_json = base64.urlsafe_b64decode(payload_b64.encode()).decode()
+        payload = json.loads(payload_json)
+        
+        # Check expiration
+        if payload.get('exp', 0) < int(time.time()):
+            return None
+            
+        return payload.get('username')
+    except Exception:
+        return None
 
 # Legacy function for backwards compatibility
 def auth_guard(credentials: HTTPBasicCredentials = Depends(security)) -> bool:

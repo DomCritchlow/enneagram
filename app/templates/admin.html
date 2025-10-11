@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Dashboard - Enneagram Assessment</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/admin-specific.css">
     <style>
         .admin-header {
             text-align: center;
@@ -102,11 +103,11 @@
     <div class="container">
         <div class="admin-header">
             <h1 class="admin-title">Admin Dashboard</h1>
-            <p style="color: var(--text-secondary);">Enneagram Assessment Statistics</p>
+            <p class="admin-subtitle">Enneagram Assessment Statistics</p>
         </div>
 
         <div class="admin-card">
-            <h3 style="color: var(--accent); margin-bottom: 1rem;">Response Overview</h3>
+            <h3 class="admin-section-title">Response Overview</h3>
             
             {% set total_count = counts.values() | sum %}
             <div class="total-responses">
@@ -132,7 +133,7 @@
                 {% endfor %}
             </div>
 
-            <div style="text-align: center; margin-top: 2rem;">
+            <div class="admin-export-section">
                 <a href="/export.csv" class="export-btn">
                     Export Data (CSV)
                 </a>
@@ -140,25 +141,25 @@
         </div>
 
         <div class="admin-card">
-            <h3 style="color: var(--accent); margin-bottom: 1rem;">Type Distribution</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            <h3 class="admin-section-title">Type Distribution</h3>
+            <p class="admin-section-description">
                 The chart below shows the distribution of Enneagram types among respondents.
             </p>
             
-            <div style="margin: 2rem 0;">
+            <div class="admin-chart-section">
                 {% for type_num in range(1, 10) %}
                     {% set count = counts.get(type_num, 0) %}
                     {% set percentage = (count / total_count * 100) if total_count > 0 else 0 %}
-                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                        <div style="width: 80px; font-weight: 500; color: var(--text-primary);">
+                    <div class="admin-type-row">
+                        <div class="admin-type-label">
                             Type {{ type_num }}
                         </div>
-                        <div style="flex: 1; margin: 0 1rem;">
-                            <div style="background: var(--border); height: 20px; border-radius: 10px; overflow: hidden;">
-                                <div style="background: linear-gradient(90deg, var(--accent), var(--accent-light)); height: 100%; width: {{ percentage }}%; transition: width 0.5s ease; border-radius: 10px;"></div>
+                        <div class="admin-type-bar-container">
+                            <div class="admin-type-bar-bg">
+                                <div class="admin-type-bar-fill" style="width: {{ percentage }}%;"></div>
                             </div>
                         </div>
-                        <div style="width: 60px; text-align: right; color: var(--text-secondary); font-size: 0.9rem;">
+                        <div class="admin-type-count">
                             {{ count }} ({{ "%.1f"|format(percentage) }}%)
                         </div>
                     </div>
@@ -166,8 +167,8 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 2rem;">
-            <a href="/" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+        <div class="admin-back-section">
+            <a href="/" class="admin-back-link">
                 ← Back to Assessment
             </a>
         </div>

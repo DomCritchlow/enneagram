@@ -44,9 +44,20 @@ class DatabaseManager:
         self._session_factory: Optional[sessionmaker] = None
     
     def init_database(self) -> None:
-        """Initialize database connection and create tables."""
-        # For SQLite, ensure directory exists
+        """Initialize database connection and create tables.""" 
+        # Check for Cloud Run environment and SQLite
+        import os
+        is_cloud_run = os.getenv('K_SERVICE') is not None  # Cloud Run sets this
+        
         if settings.database_url.startswith("sqlite"):
+            if is_cloud_run:
+                from core.logging import app_logger
+                app_logger.warning(
+                    "CRITICAL: Using SQLite in Cloud Run! Data will be lost on container restart. "
+                    "Consider using Cloud SQL for production: "
+                    "https://cloud.google.com/sql/docs/postgres/connect-run"
+                )
+            
             db_path = settings.database_path
             if db_path:
                 db_path.parent.mkdir(parents=True, exist_ok=True)

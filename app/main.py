@@ -65,10 +65,20 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Add security headers middleware
+# Security middleware
 @app.middleware("http")
-async def add_security_headers(request: Request, call_next):
-    """Add security headers to all responses."""
+async def security_middleware(request: Request, call_next):
+    """Add security headers and enforce HTTPS in production."""
+    # HTTPS enforcement in production
+    if not settings.debug:
+        # Check if request is HTTPS (considering proxy headers from Cloud Run)
+        forwarded_proto = request.headers.get("x-forwarded-proto", "")
+        if forwarded_proto == "http":
+            # Redirect to HTTPS
+            url = request.url.replace(scheme="https")
+            from fastapi.responses import RedirectResponse
+            return RedirectResponse(url=str(url), status_code=301)
+    
     response = await call_next(request)
     
     # Add security headers (conditional based on debug mode)

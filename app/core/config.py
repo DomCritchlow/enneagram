@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False, description="Debug mode")
     app_title: str = Field(default="Enneagram (Team Use)", description="Application title")
     
+    # Production settings
+    force_https: bool = Field(default=True, description="Force HTTPS redirects in production")
+    session_timeout: int = Field(default=86400, description="Session timeout in seconds (24 hours)")
+    
     # File paths
     app_dir: Path = Field(default_factory=lambda: Path(__file__).parent.parent, description="Application directory")
     questions_file: str = Field(default="questions.json", description="Questions JSON file name (use 'questions_short.json' for debugging)")
