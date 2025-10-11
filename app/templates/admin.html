@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard - Enneagram Assessment</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .admin-title {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-item {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .stat-item:hover {
+            border-color: var(--accent);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .stat-description {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        .export-btn {
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .export-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-hover);
+        }
+        
+        .total-responses {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="admin-title">Admin Dashboard</h1>
+            <p style="color: var(--text-secondary);">Enneagram Assessment Statistics</p>
+        </div>
+
+        <div class="admin-card">
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">Response Overview</h3>
+            
+            {% set total_count = counts.values() | sum %}
+            <div class="total-responses">
+                <strong>{{ total_count }}</strong> total responses collected
+            </div>
+
+            <div class="stats-grid">
+                {% for type_num in range(1, 10) %}
+                    {% set count = counts.get(type_num, 0) %}
+                    {% set percentage = (count / total_count * 100) if total_count > 0 else 0 %}
+                    <div class="stat-item">
+                        <div class="stat-number">{{ count }}</div>
+                        <div class="stat-label">Type {{ type_num }}</div>
+                        <div class="stat-description">
+                            {% if blurbs.get(type_num) %}
+                                {{ blurbs[type_num].name.split(' – ')[1] if ' – ' in blurbs[type_num].name else blurbs[type_num].name }}
+                            {% else %}
+                                Enneagram Type {{ type_num }}
+                            {% endif %}
+                        </div>
+                        <div class="stat-description">{{ "%.1f"|format(percentage) }}%</div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="/export.csv" class="export-btn">
+                    Export Data (CSV)
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">Type Distribution</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                The chart below shows the distribution of Enneagram types among respondents.
+            </p>
+            
+            <div style="margin: 2rem 0;">
+                {% for type_num in range(1, 10) %}
+                    {% set count = counts.get(type_num, 0) %}
+                    {% set percentage = (count / total_count * 100) if total_count > 0 else 0 %}
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div style="width: 80px; font-weight: 500; color: var(--text-primary);">
+                            Type {{ type_num }}
+                        </div>
+                        <div style="flex: 1; margin: 0 1rem;">
+                            <div style="background: var(--border); height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: linear-gradient(90deg, var(--accent), var(--accent-light)); height: 100%; width: {{ percentage }}%; transition: width 0.5s ease; border-radius: 10px;"></div>
+                            </div>
+                        </div>
+                        <div style="width: 60px; text-align: right; color: var(--text-secondary); font-size: 0.9rem;">
+                            {{ count }} ({{ "%.1f"|format(percentage) }}%)
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="/" style="color: var(--accent); text-decoration: none; font-weight: 500;">
+                ← Back to Assessment
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Add animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.admin-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+
+            // Animate progress bars
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('[style*="width: "]');
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 800);
+        });
+    </script>
+</body>
+</html>

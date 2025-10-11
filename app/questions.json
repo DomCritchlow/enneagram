@@ -1,0 +1,326 @@
+[
+  {
+    "id": 1,
+    "text": "I hold myself to very high standards.",
+    "type": 1,
+    "reverse": false
+  },
+  {
+    "id": 2,
+    "text": "I notice when things could be improved and feel responsible to help.",
+    "type": 1,
+    "reverse": false
+  },
+  {
+    "id": 3,
+    "text": "I feel uneasy when rules or processes are ignored.",
+    "type": 1,
+    "reverse": false
+  },
+  {
+    "id": 4,
+    "text": "I double-check details to avoid mistakes.",
+    "type": 1,
+    "reverse": false
+  },
+  {
+    "id": 5,
+    "text": "I can be critical of myself when I fall short.",
+    "type": 1,
+    "reverse": false
+  },
+  {
+    "id": 6,
+    "text": "I\u2019m comfortable leaving things imperfect if the big picture is fine.",
+    "type": 1,
+    "reverse": true
+  },
+  {
+    "id": 7,
+    "text": "I\u2019m quick to offer help when I see a need.",
+    "type": 2,
+    "reverse": false
+  },
+  {
+    "id": 8,
+    "text": "It\u2019s hard for me to say no when someone asks for support.",
+    "type": 2,
+    "reverse": false
+  },
+  {
+    "id": 9,
+    "text": "I sense others\u2019 feelings and adjust to comfort them.",
+    "type": 2,
+    "reverse": false
+  },
+  {
+    "id": 10,
+    "text": "I feel appreciated when my contributions are noticed.",
+    "type": 2,
+    "reverse": false
+  },
+  {
+    "id": 11,
+    "text": "I often prioritize my needs over others\u2019 needs.",
+    "type": 2,
+    "reverse": true
+  },
+  {
+    "id": 12,
+    "text": "I worry that if I don\u2019t help, I won\u2019t be valued.",
+    "type": 2,
+    "reverse": false
+  },
+  {
+    "id": 13,
+    "text": "I\u2019m motivated by goals and visible results.",
+    "type": 3,
+    "reverse": false
+  },
+  {
+    "id": 14,
+    "text": "I adapt my presentation to fit the audience and succeed.",
+    "type": 3,
+    "reverse": false
+  },
+  {
+    "id": 15,
+    "text": "Recognition for performance energizes me.",
+    "type": 3,
+    "reverse": false
+  },
+  {
+    "id": 16,
+    "text": "I track metrics or outcomes to gauge success.",
+    "type": 3,
+    "reverse": false
+  },
+  {
+    "id": 17,
+    "text": "I\u2019m comfortable failing publicly if it serves learning.",
+    "type": 3,
+    "reverse": true
+  },
+  {
+    "id": 18,
+    "text": "I sometimes compare myself to others to measure progress.",
+    "type": 3,
+    "reverse": false
+  },
+  {
+    "id": 19,
+    "text": "I value being authentic, even if it sets me apart.",
+    "type": 4,
+    "reverse": false
+  },
+  {
+    "id": 20,
+    "text": "I look for depth and emotional meaning in experiences.",
+    "type": 4,
+    "reverse": false
+  },
+  {
+    "id": 21,
+    "text": "I can feel misunderstood or different from others.",
+    "type": 4,
+    "reverse": false
+  },
+  {
+    "id": 22,
+    "text": "I prefer unique approaches over conventional ones.",
+    "type": 4,
+    "reverse": false
+  },
+  {
+    "id": 23,
+    "text": "I easily detach from strong feelings and keep things simple.",
+    "type": 4,
+    "reverse": true
+  },
+  {
+    "id": 24,
+    "text": "I\u2019m comfortable sharing complex emotions with others.",
+    "type": 4,
+    "reverse": false
+  },
+  {
+    "id": 25,
+    "text": "I like to fully understand systems before acting.",
+    "type": 5,
+    "reverse": false
+  },
+  {
+    "id": 26,
+    "text": "I need time and space to process information.",
+    "type": 5,
+    "reverse": false
+  },
+  {
+    "id": 27,
+    "text": "I conserve my energy and resources deliberately.",
+    "type": 5,
+    "reverse": false
+  },
+  {
+    "id": 28,
+    "text": "I prefer analysis and data over speculation.",
+    "type": 5,
+    "reverse": false
+  },
+  {
+    "id": 29,
+    "text": "I jump into action quickly without much research.",
+    "type": 5,
+    "reverse": true
+  },
+  {
+    "id": 30,
+    "text": "I\u2019m fine being interrupted frequently while working.",
+    "type": 5,
+    "reverse": true
+  },
+  {
+    "id": 31,
+    "text": "I plan for risks and possible problems.",
+    "type": 6,
+    "reverse": false
+  },
+  {
+    "id": 32,
+    "text": "Reliability and commitment are very important to me.",
+    "type": 6,
+    "reverse": false
+  },
+  {
+    "id": 33,
+    "text": "I scan for what could go wrong to prepare in advance.",
+    "type": 6,
+    "reverse": false
+  },
+  {
+    "id": 34,
+    "text": "Clear expectations and guardrails help me do my best work.",
+    "type": 6,
+    "reverse": false
+  },
+  {
+    "id": 35,
+    "text": "I\u2019m comfortable moving ahead with ambiguity and minimal safeguards.",
+    "type": 6,
+    "reverse": true
+  },
+  {
+    "id": 36,
+    "text": "I often seek reassurance before making a big decision.",
+    "type": 6,
+    "reverse": false
+  },
+  {
+    "id": 37,
+    "text": "I enjoy new ideas, options, and experiences.",
+    "type": 7,
+    "reverse": false
+  },
+  {
+    "id": 38,
+    "text": "I reframe setbacks quickly and stay future-focused.",
+    "type": 7,
+    "reverse": false
+  },
+  {
+    "id": 39,
+    "text": "I prefer flexibility over rigid plans.",
+    "type": 7,
+    "reverse": false
+  },
+  {
+    "id": 40,
+    "text": "I like to keep the mood upbeat and moving.",
+    "type": 7,
+    "reverse": false
+  },
+  {
+    "id": 41,
+    "text": "I\u2019m content staying with one option even if it feels limiting.",
+    "type": 7,
+    "reverse": true
+  },
+  {
+    "id": 42,
+    "text": "I avoid uncomfortable feelings by switching to something more fun.",
+    "type": 7,
+    "reverse": false
+  },
+  {
+    "id": 43,
+    "text": "I naturally take charge when things need doing.",
+    "type": 8,
+    "reverse": false
+  },
+  {
+    "id": 44,
+    "text": "I speak directly and value strength and honesty.",
+    "type": 8,
+    "reverse": false
+  },
+  {
+    "id": 45,
+    "text": "I protect my team and challenge obstacles.",
+    "type": 8,
+    "reverse": false
+  },
+  {
+    "id": 46,
+    "text": "I push for decisive action when stalled.",
+    "type": 8,
+    "reverse": false
+  },
+  {
+    "id": 47,
+    "text": "I\u2019m fine letting others lead, even if the direction seems weak.",
+    "type": 8,
+    "reverse": true
+  },
+  {
+    "id": 48,
+    "text": "I soften my approach to avoid intimidating others.",
+    "type": 8,
+    "reverse": true
+  },
+  {
+    "id": 49,
+    "text": "I avoid unnecessary conflict when possible.",
+    "type": 9,
+    "reverse": false
+  },
+  {
+    "id": 50,
+    "text": "I\u2019m good at seeing multiple perspectives.",
+    "type": 9,
+    "reverse": false
+  },
+  {
+    "id": 51,
+    "text": "I go with the flow and support consensus.",
+    "type": 9,
+    "reverse": false
+  },
+  {
+    "id": 52,
+    "text": "I value a calm, steady environment.",
+    "type": 9,
+    "reverse": false
+  },
+  {
+    "id": 53,
+    "text": "I assert my own priorities even if it creates tension.",
+    "type": 9,
+    "reverse": true
+  },
+  {
+    "id": 54,
+    "text": "I sometimes minimize my needs to keep the peace.",
+    "type": 9,
+    "reverse": false
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "text": "I hold myself to very high standards.",
+    "type": 1,
+    "reverse": false
+  },
+  {
+    "id": 7,
+    "text": "I'm quick to offer help when I see a need.",
+    "type": 2,
+    "reverse": false
+  },
+  {
+    "id": 13,
+    "text": "I'm motivated by goals and visible results.",
+    "type": 3,
+    "reverse": false
+  },
+  {
+    "id": 19,
+    "text": "I value being authentic, even if it sets me apart.",
+    "type": 4,
+    "reverse": false
+  },
+  {
+    "id": 25,
+    "text": "I like to fully understand systems before acting.",
+    "type": 5,
+    "reverse": false
+  },
+  {
+    "id": 31,
+    "text": "I plan for risks and possible problems.",
+    "type": 6,
+    "reverse": false
+  },
+  {
+    "id": 37,
+    "text": "I enjoy new ideas, options, and experiences.",
+    "type": 7,
+    "reverse": false
+  },
+  {
+    "id": 43,
+    "text": "I naturally take charge when things need doing.",
+    "type": 8,
+    "reverse": false
+  },
+  {
+    "id": 49,
+    "text": "I avoid unnecessary conflict when possible.",
+    "type": 9,
+    "reverse": false
+  }
+]

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your Enneagram Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="results-section">
+            {% if show_message_only %}
+                <div class="results-card">
+                    <h1 class="result-type">Take the Assessment</h1>
+                    <p class="result-description">
+                        {{ message }}
+                    </p>
+                    <a href="/" class="retake-btn" style="text-decoration: none; display: inline-block; text-align: center;">
+                        Start Assessment
+                    </a>
+                </div>
+            {% else %}
+                <!-- Main Type Result -->
+                <div class="results-card">
+                    <div class="main-result">
+                        <h1 class="result-type">
+                            {% if type_info and type_info.name %}
+                                {{ type_info.name }}
+                            {% else %}
+                                Type {{ top_type }}
+                            {% endif %}
+                        </h1>
+                        
+                        <!-- SVG Icon -->
+                        <div class="type-icon">
+                            {% if type_info and type_info.svg_icon %}
+                                {{ type_info.svg_icon|safe }}
+                            {% else %}
+                                <svg viewBox='0 0 80 80' fill='none'><circle cx='40' cy='40' r='25' stroke='currentColor' stroke-width='2'/></svg>
+                            {% endif %}
+                        </div>
+                        
+                        <p class="result-description">
+                            {% if type_info and type_info.summary %}
+                                {{ type_info.summary }}
+                            {% else %}
+                                Your dominant Enneagram type reflects your core motivations and patterns of thinking, feeling, and behaving.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Score Visualization -->
+                <div class="results-card">
+                    <h2 class="scores-title">Your Complete Profile</h2>
+                    <p class="scores-description">
+                        See your scores across all nine Enneagram types. Your highest score indicates your dominant type.
+                    </p>
+                    
+                    <!-- Spider Chart -->
+                    <div class="spider-chart-container">
+                        <div class="spider-chart" id="spiderChart">
+                            <!-- Chart will be drawn with JavaScript -->
+                        </div>
+                        <div class="chart-legend">
+                            {% for i in range(1, 10) %}
+                                <div class="legend-item {% if i == top_type %}dominant{% endif %}">
+                                    <span class="legend-color" data-type="{{ i }}"></span>
+                                    <span class="legend-label">Type {{ i }}</span>
+                                    <span class="legend-score">{{ scores[i] }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wing Section -->
+                <div class="results-card">
+                    <h2 class="wing-title">Your Wing</h2>
+                    <p class="wing-description">
+                        Your wing is the adjacent type that most influences your main type, adding depth and variation to your personality.
+                    </p>
+                    
+                    <div class="wing-display">
+                        <div class="main-type-display">
+                            <div class="main-type-number">{{ top_type }}</div>
+                            <div class="main-type-label">Main Type</div>
+                        </div>
+                        
+                        {% if wings.wing %}
+                        <div class="wing-connector">w</div>
+                        
+                        <div class="wing-item active">
+                            <div class="wing-number">{{ wings.wing }}</div>
+                            <div class="wing-score">{{ wings.wing_score }}</div>
+                            <div class="wing-label">Wing</div>
+                        </div>
+                        {% else %}
+                        <div class="no-wing">
+                            <span>No clear wing</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="wing-notation">
+                        <strong>Your Type:</strong> 
+                        {% if wings.wing %}
+                            {{ top_type }}w{{ wings.wing }}
+                        {% else %}
+                            {{ top_type }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Professional Context Placeholder -->
+                <div class="results-card professional-context">
+                    <h2 class="professional-title">Professional Implications</h2>
+                    <div class="professional-content">
+                        <p class="placeholder-text">
+                            <strong>{{ type_info.name if type_info and type_info.name else ('Type ' + top_type|string) }} in the Workplace:</strong>
+                        </p>
+                        <div class="content-placeholder">
+                            <p><em>[Professional context and workplace insights will be added here]</em></p>
+                            <ul class="placeholder-list">
+                                <li>Strengths and natural talents</li>
+                                <li>Growth areas and development opportunities</li>
+                                <li>Communication style and preferences</li>
+                                <li>Leadership approach and team dynamics</li>
+                                <li>Stress responses and management strategies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="results-actions">
+                    <a href="/" class="action-btn primary">Take Assessment Again</a>
+                    <a href="/types" class="action-btn secondary">View All Types</a>
+                    <a href="/" class="action-btn secondary">Back to Home</a>
+                </div>
+
+                <!-- Privacy Section -->
+                {% if delete_token %}
+                <div class="privacy-card">
+                    <h3>Data Privacy</h3>
+                    <p>Your results can be deleted anytime using this secure link:</p>
+                    <div class="delete-link">
+                        <code>{{ request.url.scheme }}://{{ request.url.netloc }}/delete/{{ delete_token }}</code>
+                    </div>
+                    <p class="privacy-note">Keep this link safe. Contact your facilitator if you need assistance.</p>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        .results-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .main-result {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .result-type {
+            color: var(--accent);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        
+        .type-icon {
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .type-icon svg {
+            width: 80px;
+            height: 80px;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+        }
+        
+        .results-card:hover .type-icon svg {
+            transform: scale(1.05);
+        }
+        
+        .type-score {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            display: inline-block;
+        }
+        
+        .score-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+        
+        .score-value {
+            color: var(--accent);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .wing-title {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .wing-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .wing-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .wing-connector {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .wing-notation {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+        
+        .no-wing {
+            padding: 1rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        /* Spider Chart Styles */
+        .scores-title {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .scores-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .spider-chart-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .spider-chart {
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+        
+        .chart-legend {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .legend-item.dominant {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .legend-item:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .legend-label {
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        
+        .legend-score {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .legend-item.dominant .legend-score {
+            color: white;
+        }
+        
+        /* Legacy styles for wings-container removed */
+        
+        .wing-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            min-width: 120px;
+        }
+        
+        .wing-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .wing-score {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .wing-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .main-type-display {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 12px;
+            min-width: 120px;
+        }
+        
+        .main-type-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .main-type-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .professional-context {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .professional-title {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .placeholder-text {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .content-placeholder {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .placeholder-list {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .placeholder-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .results-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .action-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn.primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .action-btn.primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .action-btn.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .action-btn.secondary:hover {
+            background: var(--text-muted);
+        }
+        
+        .privacy-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .privacy-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .delete-link {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            word-break: break-all;
+        }
+        
+        .delete-link code {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+        
+        .privacy-note {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .wing-display {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .type-icon {
+                padding: 1.5rem;
+            }
+            
+            .type-icon svg {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .spider-chart-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .spider-chart {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .chart-legend {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .results-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                text-align: center;
+            }
+        }
+    </style>
+
+    <script>
+        // Add smooth animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.results-card, .privacy-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+            
+            // Draw spider chart
+            drawSpiderChart();
+        });
+        
+        function drawSpiderChart() {
+            const scores = {{ scores|tojson }};
+            const topType = {{ top_type }};
+            const maxScore = Math.max(...Object.values(scores));
+            
+            const chartElement = document.getElementById('spiderChart');
+            if (!chartElement || !scores) return;
+            
+            // Responsive sizing
+            const isMobile = window.innerWidth <= 768;
+            const size = isMobile ? 250 : 300;
+            const center = size / 2;
+            const maxRadius = size * 0.4;
+            
+            // Create SVG
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', size);
+            svg.setAttribute('height', size);
+            
+            const centerX = center;
+            const centerY = center;
+            
+            // Draw background circles (grid)
+            for (let i = 1; i <= 5; i++) {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', centerX);
+                circle.setAttribute('cy', centerY);
+                circle.setAttribute('r', (maxRadius / 5) * i);
+                circle.setAttribute('fill', 'none');
+                circle.setAttribute('stroke', '#e0e0e0');
+                circle.setAttribute('stroke-width', '1');
+                svg.appendChild(circle);
+            }
+            
+            // Draw axes and labels
+            const angleStep = (2 * Math.PI) / 9;
+            for (let i = 1; i <= 9; i++) {
+                const angle = angleStep * (i - 1) - Math.PI / 2; // Start from top
+                const x2 = centerX + maxRadius * Math.cos(angle);
+                const y2 = centerY + maxRadius * Math.sin(angle);
+                
+                // Draw axis line
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', centerX);
+                line.setAttribute('y1', centerY);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                line.setAttribute('stroke', '#e0e0e0');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+                
+                // Add type number label
+                const labelX = centerX + (maxRadius + 20) * Math.cos(angle);
+                const labelY = centerY + (maxRadius + 20) * Math.sin(angle);
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', labelX);
+                text.setAttribute('y', labelY);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'middle');
+                text.setAttribute('font-size', '14');
+                text.setAttribute('font-weight', i === topType ? 'bold' : 'normal');
+                text.setAttribute('fill', i === topType ? '#6366f1' : '#666');
+                text.textContent = i;
+                svg.appendChild(text);
+            }
+            
+            // Draw data polygon
+            const points = [];
+            for (let i = 1; i <= 9; i++) {
+                const angle = angleStep * (i - 1) - Math.PI / 2;
+                const score = scores[i] || 0;
+                const radius = (score / maxScore) * maxRadius;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                points.push(`${x},${y}`);
+            }
+            
+            const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            polygon.setAttribute('points', points.join(' '));
+            polygon.setAttribute('fill', 'rgba(99, 102, 241, 0.2)');
+            polygon.setAttribute('stroke', '#6366f1');
+            polygon.setAttribute('stroke-width', '2');
+            svg.appendChild(polygon);
+            
+            // Add score dots
+            for (let i = 1; i <= 9; i++) {
+                const angle = angleStep * (i - 1) - Math.PI / 2;
+                const score = scores[i] || 0;
+                const radius = (score / maxScore) * maxRadius;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', i === topType ? '6' : '4');
+                circle.setAttribute('fill', i === topType ? '#6366f1' : '#ffffff');
+                circle.setAttribute('stroke', '#6366f1');
+                circle.setAttribute('stroke-width', '2');
+                svg.appendChild(circle);
+            }
+            
+            chartElement.appendChild(svg);
+        }
+    </script>
+</body>
+</html>

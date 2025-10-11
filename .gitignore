@@ -1,0 +1,123 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+.ENV
+.env
+enn_venv/
+*_venv/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.test
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+app/results.sqlite
+
+# Note: Question files (questions.json, questions_short.json) are tracked
+# These contain the assessment questions and should be in version control
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.out
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+htmlcov/
+.cache
+nosetests.xml
+coverage.xml
+
+# FastAPI/Uvicorn
+.uvicorn-pid
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+temp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Secret files
+secrets.json
+config.secret.json
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Development tools
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Local configuration
+local_settings.py
+local_config.py
+
+# Documentation builds
+docs/_build/
+
+# Admin credentials (if any)
+admin_config.py

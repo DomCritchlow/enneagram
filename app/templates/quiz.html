@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="card" method="post" action="/submit">
+  <h2>Your Responses</h2>
+  {% if dup %}
+    <div class="alert">That name is already taken. Please pick a different (unique) name or pseudonym only you know.</div>
+  {% endif %}
+  <label for="name" class="inline">
+    <strong>Required name (must be unique):</strong>
+    <input type="text" id="name" name="name" placeholder="e.g., 'DeltaSparrow' (a pseudonym only you know)" required>
+  </label>
+  <label class="inline consent">
+    <input type="checkbox" name="consent" value="yes" required>
+    I consent to the <a href="/terms" target="_blank">Terms & Privacy</a> and understand this is for team reflection only.
+  </label>
+  <p class="muted">Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).</p>
+  <div class="grid">
+  {% for q in questions %}
+    <div class="item">
+      <label for="q_{{q.id}}">{{ "%02d"|format(q.id) }}. {{ q.text }}</label>
+      <select id="q_{{q.id}}" name="q_{{q.id}}" required>
+        <option value="" disabled selected>—</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+  {% endfor %}
+  </div>
+  <button class="btn" type="submit">See my result</button>
+</form>
+{% endblock %}

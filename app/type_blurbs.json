@@ -1,0 +1,47 @@
+{
+  "1": {
+    "name": "Type 1 – Reformer",
+    "summary": "Principled, responsible, improvement-oriented; can become overly critical under stress.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><rect x='10' y='10' width='60' height='60' rx='8' stroke='currentColor' stroke-width='2' fill='none'/><rect x='20' y='20' width='40' height='40' rx='4' stroke='currentColor' stroke-width='1.5' fill='none'/><circle cx='32' cy='32' r='2' fill='currentColor'/><circle cx='48' cy='32' r='2' fill='currentColor'/><circle cx='32' cy='48' r='2' fill='currentColor'/><circle cx='48' cy='48' r='2' fill='currentColor'/><path d='M30 40h20' stroke='currentColor' stroke-width='1.5'/></svg>"
+  },
+  "2": {
+    "name": "Type 2 – Helper",
+    "summary": "Empathic, supportive, people-focused; can overextend by prioritizing others.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 65c-8 0-25-12-25-28 0-8 6-14 14-14 4 0 8 2 11 5 3-3 7-5 11-5 8 0 14 6 14 14 0 16-17 28-25 28z' fill='currentColor' opacity='0.2' stroke='currentColor' stroke-width='2'/><circle cx='30' cy='25' r='3' fill='currentColor'/><circle cx='50' cy='25' r='3' fill='currentColor'/><path d='M25 35c0-3 2-5 5-5h20c3 0 5 2 5 5' stroke='currentColor' stroke-width='1.5' fill='none'/></svg>"
+  },
+  "3": {
+    "name": "Type 3 – Achiever",
+    "summary": "Driven, adaptable, results-oriented; can over-identify with success and image.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 15l8 16h18l-14 12 6 18-18-12-18 12 6-18-14-12h18z' fill='currentColor' opacity='0.3' stroke='currentColor' stroke-width='2'/><rect x='35' y='45' width='10' height='20' rx='2' fill='currentColor'/><circle cx='40' cy='40' r='4' fill='currentColor'/><path d='M35 35l5-5 5 5' stroke='currentColor' stroke-width='2' fill='none'/></svg>"
+  },
+  "4": {
+    "name": "Type 4 – Individualist",
+    "summary": "Authentic, expressive, depth-seeking; can feel misunderstood or withdrawn.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M20 40c0-15 10-25 20-25s20 10 20 25c0 10-5 18-12 22l-8 8-8-8c-7-4-12-12-12-22z' fill='currentColor' opacity='0.1' stroke='currentColor' stroke-width='2'/><path d='M25 30c5-10 15-5 15 0 0-5 10-10 15 0' stroke='currentColor' stroke-width='1.5' fill='none'/><circle cx='32' cy='38' r='1.5' fill='currentColor'/><circle cx='48' cy='38' r='1.5' fill='currentColor'/><path d='M30 50c3 3 7 3 10 0s7-3 10 0' stroke='currentColor' stroke-width='1.5' fill='none'/></svg>"
+  },
+  "5": {
+    "name": "Type 5 – Investigator",
+    "summary": "Analytical, perceptive, self-sufficient; can detach to conserve energy.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><circle cx='40' cy='35' r='20' fill='currentColor' opacity='0.1' stroke='currentColor' stroke-width='2'/><circle cx='50' cy='55' r='12' fill='none' stroke='currentColor' stroke-width='2'/><path d='M58 63l8 8' stroke='currentColor' stroke-width='3'/><circle cx='35' cy='30' r='2' fill='currentColor'/><circle cx='45' cy='30' r='2' fill='currentColor'/><path d='M32 40h16' stroke='currentColor' stroke-width='1.5'/><rect x='30' y='12' width='20' height='8' rx='2' fill='currentColor' opacity='0.3'/></svg>"
+  },
+  "6": {
+    "name": "Type 6 – Loyalist",
+    "summary": "Reliable, vigilant, team-oriented; can worry and seek certainty.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 15l15 10v20c0 15-15 25-15 25s-15-10-15-25V25z' fill='currentColor' opacity='0.2' stroke='currentColor' stroke-width='2'/><circle cx='33' cy='35' r='2' fill='currentColor'/><circle cx='47' cy='35' r='2' fill='currentColor'/><path d='M30 45c3-3 7-3 10 0s7 3 10 0' stroke='currentColor' stroke-width='1.5' fill='none'/><path d='M35 25h10' stroke='currentColor' stroke-width='2'/><circle cx='40' cy='50' r='3' fill='currentColor'/></svg>"
+  },
+  "7": {
+    "name": "Type 7 – Enthusiast",
+    "summary": "Optimistic, versatile, future-oriented; can avoid discomfort or limits.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 20c15 0 25 15 20 30-3 10-15 15-20 10-5 5-17 0-20-10-5-15 5-30 20-30z' fill='currentColor' opacity='0.2' stroke='currentColor' stroke-width='2'/><circle cx='32' cy='35' r='2' fill='currentColor'/><circle cx='48' cy='35' r='2' fill='currentColor'/><path d='M30 45c3 5 7 5 10 2s7 3 10-2' stroke='currentColor' stroke-width='1.5' fill='none'/><path d='M25 25l6 6m14-6l6 6m-26 20l6-6m20 0l6 6' stroke='currentColor' stroke-width='1.5'/></svg>"
+  },
+  "8": {
+    "name": "Type 8 – Challenger",
+    "summary": "Energetic, protective, decisive; can be confrontational or intense.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><rect x='15' y='20' width='50' height='40' rx='6' fill='currentColor' opacity='0.3' stroke='currentColor' stroke-width='3'/><path d='M28 32l4-4 4 4m8-4l4 4 4-4' stroke='currentColor' stroke-width='2' fill='none'/><rect x='30' y='40' width='20' height='6' rx='1' fill='currentColor'/><path d='M20 15l8 8m24-8l-8 8M20 65l8-8m24 8l-8-8' stroke='currentColor' stroke-width='2'/></svg>"
+  },
+  "9": {
+    "name": "Type 9 – Peacemaker",
+    "summary": "Calm, steady, harmonizing; can minimize priorities to keep peace.",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><circle cx='40' cy='40' r='25' fill='currentColor' opacity='0.1' stroke='currentColor' stroke-width='2'/><circle cx='32' cy='35' r='2' fill='currentColor'/><circle cx='48' cy='35' r='2' fill='currentColor'/><path d='M32 48c2 3 6 3 8 0s6-3 8 0' stroke='currentColor' stroke-width='1.5' fill='none'/><path d='M20 25c5 0 8-3 8-3s3 3 8 3 8-3 8-3 3 3 8 3M20 55c5 0 8 3 8 3s3-3 8-3 8 3 8 3 3-3 8-3' stroke='currentColor' stroke-width='1.5' fill='none'/></svg>"
+  }
+}
