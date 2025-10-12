@@ -199,8 +199,8 @@
                     <a href="/" class="action-btn primary">Take Assessment Again</a>
                     <a href="/types" class="action-btn secondary">View All Types</a>
                     <a href="/" class="action-btn secondary">Back to Home</a>
-                    <button onclick="window.print(); return false;" class="action-btn secondary print-btn">🖨️ Print Results</button>
-                    <button onclick="window.printResults && window.printResults(); return false;" class="action-btn secondary print-btn-backup" style="display: none;">🖨️ Print (Backup)</button>
+                    <button class="action-btn secondary print-btn" id="printButton">🖨️ Print Results</button>
+                    <button class="action-btn secondary print-btn-backup" id="printButtonBackup" style="display: none;">🖨️ Print (Backup)</button>
                 </div>
 
                 <!-- Privacy Section (hidden when printing) -->
@@ -955,23 +955,26 @@
                 console.error('❌ window.print is not available');
             }
             
-            // Add event listener debugging for print buttons
-            const printBtn = document.querySelector('.print-btn');
-            const printBtnBackup = document.querySelector('.print-btn-backup');
+            // Setup print button event listeners (CSP-compliant)
+            const printBtn = document.getElementById('printButton');
+            const printBtnBackup = document.getElementById('printButtonBackup');
             
             if (printBtn) {
                 console.log('✅ Print button found in DOM');
                 
-                // Add additional click handler for debugging
+                // Main print button click handler
                 printBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
                     console.log('Print button clicked via event listener');
-                    console.log('Event:', e);
                     
-                    // Try direct print if onclick fails
                     try {
+                        console.log('Attempting to print...');
                         window.print();
+                        console.log('✅ Print dialog should now be open');
                     } catch (error) {
-                        console.error('Direct print failed:', error);
+                        console.error('❌ Print failed:', error);
+                        alert('Unable to print. Please use your browser\'s print function (Ctrl+P or Cmd+P).');
+                        
                         // Show backup button if main fails
                         if (printBtnBackup) {
                             printBtnBackup.style.display = 'inline-block';
@@ -984,17 +987,46 @@
                 printBtn.addEventListener('mouseover', function() {
                     console.log('Print button hover detected - button is interactive');
                 });
+                
+                console.log('✅ Print button event listeners attached');
             } else {
                 console.error('❌ Print button not found in DOM');
             }
+            
+            // Setup backup print button
+            if (printBtnBackup) {
+                printBtnBackup.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Backup print button clicked');
+                    
+                    try {
+                        if (window.printResults) {
+                            window.printResults();
+                        } else {
+                            window.print();
+                        }
+                    } catch (error) {
+                        console.error('Backup print failed:', error);
+                        alert('Print failed. Please use Ctrl+P or Cmd+P to print this page.');
+                    }
+                });
+                
+                console.log('✅ Backup print button event listener attached');
+            }
         });
         
-        // Add keyboard shortcut for printing
+        // Add keyboard shortcut for printing (CSP-compliant)
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
                 e.preventDefault();
-                console.log('Keyboard shortcut triggered');
-                window.printResults();
+                console.log('Keyboard shortcut (Ctrl+P/Cmd+P) triggered');
+                
+                try {
+                    window.print();
+                    console.log('✅ Print dialog opened via keyboard shortcut');
+                } catch (error) {
+                    console.error('❌ Keyboard shortcut print failed:', error);
+                }
             }
         });
     </script>
