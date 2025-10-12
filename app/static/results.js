@@ -7,10 +7,8 @@
 let scores = {};
 let topType = 1;
 
-// Add smooth animations and initialize all functionality
+// Add smooth animations and initialize functionality
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded - setting up print functionality');
-    
     // Load chart data from data attributes (CSP compliant)
     const chartDataElement = document.getElementById('chartData');
     if (chartDataElement) {
@@ -18,9 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const scoresData = JSON.parse(chartDataElement.getAttribute('data-scores'));
             const topTypeData = parseInt(chartDataElement.getAttribute('data-top-type'));
             setChartData(scoresData, topTypeData);
-            console.log('✅ Chart data loaded from data attributes');
         } catch (error) {
-            console.error('❌ Error loading chart data:', error);
+            console.error('Error loading chart data:', error);
         }
     }
     
@@ -36,11 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, index * 150);
     });
     
-    // Initialize all functionality
+    // Initialize chart
     drawSpiderChart();
-    initializePrintFunctionality();
-    initializePrintHeader();
-    initializeKeyboardShortcuts();
 });
 
 function setChartData(scoresData, topTypeData) {
@@ -151,112 +145,3 @@ function drawSpiderChart() {
     chartElement.appendChild(svg);
 }
 
-// Print functionality (CSP-compliant)
-function initializePrintFunctionality() {
-    console.log('Initializing print functionality...');
-    
-    // Test if print function is accessible
-    if (typeof window.print === 'function') {
-        console.log('✅ window.print is available');
-    } else {
-        console.error('❌ window.print is not available');
-    }
-    
-    // Setup print button event listeners (CSP-compliant)
-    const printBtn = document.getElementById('printButton');
-    const printBtnBackup = document.getElementById('printButtonBackup');
-    
-    if (printBtn) {
-        console.log('✅ Print button found in DOM');
-        
-        // Main print button click handler
-        printBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('Print button clicked via event listener');
-            
-            try {
-                console.log('Attempting to print...');
-                window.print();
-                console.log('✅ Print dialog should now be open');
-            } catch (error) {
-                console.error('❌ Print failed:', error);
-                alert('Unable to print. Please use your browser\'s print function (Ctrl+P or Cmd+P).');
-                
-                // Show backup button if main fails
-                if (printBtnBackup) {
-                    printBtnBackup.style.display = 'inline-block';
-                    printBtn.style.display = 'none';
-                }
-            }
-        });
-        
-        // Test button interactivity
-        printBtn.addEventListener('mouseover', function() {
-            console.log('Print button hover detected - button is interactive');
-        });
-        
-        console.log('✅ Print button event listeners attached');
-    } else {
-        console.error('❌ Print button not found in DOM');
-    }
-    
-    // Setup backup print button
-    if (printBtnBackup) {
-        printBtnBackup.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('Backup print button clicked');
-            
-            try {
-                window.print();
-            } catch (error) {
-                console.error('Backup print failed:', error);
-                alert('Print failed. Please use Ctrl+P or Cmd+P to print this page.');
-            }
-        });
-        
-        console.log('✅ Backup print button event listener attached');
-    }
-}
-
-// Initialize print header information
-function initializePrintHeader() {
-    const printDateElement = document.getElementById('printDate');
-    const printUrlElement = document.getElementById('printUrl');
-    
-    if (printDateElement) {
-        const now = new Date();
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        };
-        printDateElement.textContent = now.toLocaleDateString('en-US', options);
-    }
-    
-    if (printUrlElement) {
-        // Remove query parameters for cleaner URL
-        const baseUrl = window.location.origin;
-        printUrlElement.textContent = baseUrl;
-    }
-}
-
-// Add keyboard shortcut for printing (CSP-compliant)
-function initializeKeyboardShortcuts() {
-    document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-            e.preventDefault();
-            console.log('Keyboard shortcut (Ctrl+P/Cmd+P) triggered');
-            
-            try {
-                window.print();
-                console.log('✅ Print dialog opened via keyboard shortcut');
-            } catch (error) {
-                console.error('❌ Keyboard shortcut print failed:', error);
-            }
-        }
-    });
-    
-    console.log('✅ Keyboard shortcuts initialized');
-}
