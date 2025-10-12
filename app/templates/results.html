@@ -199,7 +199,8 @@
                     <a href="/" class="action-btn primary">Take Assessment Again</a>
                     <a href="/types" class="action-btn secondary">View All Types</a>
                     <a href="/" class="action-btn secondary">Back to Home</a>
-                    <button onclick="handlePrint()" class="action-btn secondary print-btn">🖨️ Print Results</button>
+                    <button onclick="window.print(); return false;" class="action-btn secondary print-btn">🖨️ Print Results</button>
+                    <button onclick="window.printResults && window.printResults(); return false;" class="action-btn secondary print-btn-backup" style="display: none;">🖨️ Print (Backup)</button>
                 </div>
 
                 <!-- Privacy Section (hidden when printing) -->
@@ -909,18 +910,23 @@
     {% endif %}
     
     <script>
-        // Handle print functionality with error handling
-        function handlePrint() {
+        // Simple print function for debugging
+        window.printResults = function() {
+            console.log('Print function called');
             try {
                 window.print();
+                return false;
             } catch (error) {
                 console.error('Print error:', error);
                 alert('Unable to print. Please use your browser\'s print function (Ctrl+P or Cmd+P).');
+                return false;
             }
-        }
+        };
         
         // Populate print header information
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded - setting up print functionality');
+            
             const printDateElement = document.getElementById('printDate');
             const printUrlElement = document.getElementById('printUrl');
             
@@ -941,13 +947,54 @@
                 const baseUrl = window.location.origin;
                 printUrlElement.textContent = baseUrl;
             }
+            
+            // Test if print function is accessible
+            if (typeof window.print === 'function') {
+                console.log('✅ window.print is available');
+            } else {
+                console.error('❌ window.print is not available');
+            }
+            
+            // Add event listener debugging for print buttons
+            const printBtn = document.querySelector('.print-btn');
+            const printBtnBackup = document.querySelector('.print-btn-backup');
+            
+            if (printBtn) {
+                console.log('✅ Print button found in DOM');
+                
+                // Add additional click handler for debugging
+                printBtn.addEventListener('click', function(e) {
+                    console.log('Print button clicked via event listener');
+                    console.log('Event:', e);
+                    
+                    // Try direct print if onclick fails
+                    try {
+                        window.print();
+                    } catch (error) {
+                        console.error('Direct print failed:', error);
+                        // Show backup button if main fails
+                        if (printBtnBackup) {
+                            printBtnBackup.style.display = 'inline-block';
+                            printBtn.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Test button interactivity
+                printBtn.addEventListener('mouseover', function() {
+                    console.log('Print button hover detected - button is interactive');
+                });
+            } else {
+                console.error('❌ Print button not found in DOM');
+            }
         });
         
         // Add keyboard shortcut for printing
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
                 e.preventDefault();
-                handlePrint();
+                console.log('Keyboard shortcut triggered');
+                window.printResults();
             }
         });
     </script>
