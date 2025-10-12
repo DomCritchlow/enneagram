@@ -126,3 +126,10 @@ admin_config.py
 .docker/
 
 # Cloud deployment - Note: .gcloudignore and .dockerignore should be tracked
+
+
+# Google Service Account files (add to .gitignore)
+service-account*.json
+*service-account*.json
+google-credentials*.json
+gcp-credentials*.json

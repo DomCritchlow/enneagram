@@ -36,6 +36,10 @@ class EnneagramQuiz {
             this.startBtn.textContent = 'Loading...';
             const response = await fetch('/api/questions');
             this.questions = await response.json();
+            
+            // Randomize questions for this session
+            this.shuffleQuestions();
+            
             this.questionsLoaded = true;
             this.startBtn.textContent = 'Begin';
             this.updateStartButton();
@@ -44,6 +48,14 @@ class EnneagramQuiz {
             this.startBtn.textContent = 'Error - Reload';
             // Fallback: reload page to get questions from server-side
             window.location.href = '/quiz';
+        }
+    }
+
+    shuffleQuestions() {
+        // Fisher-Yates shuffle algorithm for consistent randomization
+        for (let i = this.questions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.questions[i], this.questions[j]] = [this.questions[j], this.questions[i]];
         }
     }
 
@@ -94,8 +106,10 @@ class EnneagramQuiz {
         this.progressFill.style.width = progressPercent + '%';
         this.progressText.textContent = `Question ${startIdx + 1}-${endIdx} of ${this.questions.length}`;
 
-        // Render questions
-        this.questionsContainer.innerHTML = pageQuestions.map(q => this.renderQuestion(q)).join('');
+        // Render questions with position-based numbering
+        this.questionsContainer.innerHTML = pageQuestions.map((q, index) => 
+            this.renderQuestion(q, startIdx + index + 1)
+        ).join('');
 
         // Add event listeners
         this.questionsContainer.addEventListener('change', () => this.checkPageComplete());
@@ -104,14 +118,14 @@ class EnneagramQuiz {
         this.checkPageComplete();
     }
 
-    renderQuestion(question) {
+    renderQuestion(question, displayNumber) {
         const isAnswered = this.responses[`q_${question.id}`] !== undefined;
         const currentValue = this.responses[`q_${question.id}`] || '';
 
         return `
             <div class="question-card" data-question-id="${question.id}">
                 <div class="question-text">
-                    <span class="question-number">${question.id}.</span>
+                    <span class="question-number">${displayNumber}.</span>
                     ${question.text}
                 </div>
                 

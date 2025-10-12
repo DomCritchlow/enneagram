@@ -22,7 +22,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY app/ ./app/
-COPY env.example .env
+
+# Create empty .env file so environment variables from Cloud Run secrets take precedence
+RUN touch .env
 
 # Create logs directory
 RUN mkdir -p app/logs
