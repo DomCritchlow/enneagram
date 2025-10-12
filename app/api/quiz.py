@@ -74,7 +74,7 @@ async def show_results(request: Request, data: str = None):
         
         # Get type information
         blurbs = quiz_service.load_type_blurbs()
-        type_info = blurbs.get(result_data["top_type"], None)
+        type_info = blurbs.get(str(result_data["top_type"]), None)
         
         # Calculate wings from the scores
         wings = quiz_service.calculate_wings(result_data["top_type"], result_data["scores"])
@@ -85,7 +85,7 @@ async def show_results(request: Request, data: str = None):
             "top_type": result_data["top_type"],
             "scores": result_data["scores"],
             "wings": wings,
-            "type_info": type_info.dict() if type_info else {},
+            "type_info": type_info if type_info else {},
             "validity": result_data.get("validity", {"mean": 3.0, "sd": 1.0}),
             "show_delete_option": False  # No delete functionality in stateless version
         })

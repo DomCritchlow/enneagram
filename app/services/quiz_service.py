@@ -26,11 +26,11 @@ class QuizService:
             raise ValueError(f"Failed to load questions: {e}")
     
     @staticmethod
-    def load_type_blurbs() -> Dict[int, TypeBlurb]:
+    def load_type_blurbs() -> Dict[str, dict]:
         """Load type descriptions directly from file."""
         try:
             blurbs_data = json.loads(settings.blurbs_path.read_text())
-            return {int(k): TypeBlurb(**v) for k, v in blurbs_data.items()}
+            return blurbs_data  # Return raw dictionary data to support enhanced fields
         except Exception as e:
             raise ValueError(f"Failed to load type blurbs: {e}")
     

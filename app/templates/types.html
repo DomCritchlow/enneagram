@@ -24,7 +24,7 @@
 
         <div class="types-grid">
             {% for type_num in range(1, 10) %}
-                {% set type_data = types_data.get(type_num, {}) %}
+                {% set type_data = types_data.get(type_num|string, {}) %}
                 <div class="type-card" data-type="{{ type_num }}">
                     <div class="type-header">
                         <div class="type-number">{{ type_num }}</div>
@@ -69,21 +69,37 @@
                         {% endif %}
                     </div>
                     
-                    <div class="type-details">
-                        <div class="core-traits">
-                            <h4>Core Traits</h4>
-                            <div class="trait-placeholder">
-                                <em>[Detailed traits will be added here]</em>
-                            </div>
+                    {% if type_data.workplace_strengths or type_data.growth_tips %}
+                    <div class="type-preview">
+                        {% if type_data.workplace_strengths %}
+                        <div class="preview-section">
+                            <h4>Key Strengths</h4>
+                            <ul class="preview-list">
+                                {% for strength in type_data.workplace_strengths[:3] %}
+                                <li>{{ strength }}</li>
+                                {% endfor %}
+                                {% if type_data.workplace_strengths|length > 3 %}
+                                <li><em>...and {{ type_data.workplace_strengths|length - 3 }} more</em></li>
+                                {% endif %}
+                            </ul>
                         </div>
+                        {% endif %}
                         
-                        <div class="growth-areas">
-                            <h4>Growth Focus</h4>
-                            <div class="growth-placeholder">
-                                <em>[Growth recommendations will be added here]</em>
-                            </div>
+                        {% if type_data.growth_tips %}
+                        <div class="preview-section">
+                            <h4>Growth Areas</h4>
+                            <ul class="preview-list">
+                                {% for tip in type_data.growth_tips[:2] %}
+                                <li>{{ tip }}</li>
+                                {% endfor %}
+                                {% if type_data.growth_tips|length > 2 %}
+                                <li><em>...and {{ type_data.growth_tips|length - 2 }} more</em></li>
+                                {% endif %}
+                            </ul>
                         </div>
+                        {% endif %}
                     </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
@@ -271,19 +287,20 @@
             font-style: normal;
         }
         
-        .type-details {
+        .type-preview {
+            margin-top: 1rem;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
         
-        .core-traits, .growth-areas {
+        .preview-section {
             background: var(--bg-secondary);
             border-radius: 8px;
             padding: 1rem;
         }
         
-        .type-details h4 {
+        .preview-section h4 {
             color: var(--accent);
             font-size: 0.9rem;
             font-weight: 600;
@@ -292,10 +309,27 @@
             letter-spacing: 0.5px;
         }
         
-        .trait-placeholder, .growth-placeholder {
-            color: var(--text-muted);
+        .preview-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .preview-list li {
             font-size: 0.85rem;
-            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+            color: var(--text-secondary);
+        }
+        
+        .preview-list li:before {
+            content: "•";
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        .preview-list li em {
+            color: var(--text-muted);
         }
         
         .navigation-footer {
@@ -334,7 +368,7 @@
                 height: 48px;
             }
             
-            .type-details {
+            .type-preview {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
