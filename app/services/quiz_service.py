@@ -2,17 +2,11 @@
 Business logic for quiz operations.
 """
 import json
-import sqlite3
-from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Tuple, Optional
 
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
-
 from core.config import settings
-from core.security import generate_delete_token, sanitize_input
-from models.database import db_manager, get_db_connection, Result
+from core.security import sanitize_input
 from models.schemas import (
     Question, TypeBlurb, EnneagramResult, EnneagramScores, 
     ValidityStats, QuizAnswers
@@ -168,163 +162,17 @@ class QuizService:
         # Calculate validity statistics
         validity = self.calculate_validity_stats(all_values)
         
-        # Generate delete token
-        delete_token = generate_delete_token()
-        
         # Create result object
         result = EnneagramResult(
             name=clean_name,
             top_type=top_type,
             scores=EnneagramScores.from_dict(type_scores),
             validity=validity,
-            delete_token=delete_token,
             tied_types=tied_types if len(tied_types) > 1 else None
         )
         
         return result
     
-    def save_quiz_result(self, result: EnneagramResult) -> None:
-        """
-        Save quiz result to database.
-        
-        Args:
-            result: EnneagramResult to save
-            
-        Raises:
-            ValueError: If name already exists
-        """
-        # Use legacy database connection for now
-        conn = get_db_connection()
-        try:
-            cur = conn.cursor()
-            
-            # Insert new result (database UNIQUE constraint will handle duplicates)
-            cur.execute(
-                """INSERT INTO results 
-                   (ts, name, top_type, scores_json, raw_json, validity_json, delete_token) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                (
-                    datetime.utcnow().isoformat(),
-                    result.name,
-                    result.top_type,
-                    json.dumps(result.scores.to_dict()),
-                    json.dumps({}),  # Raw answers - could be added if needed
-                    json.dumps({"mean": result.validity.mean, "sd": result.validity.sd}),
-                    result.delete_token,
-                )
-            )
-            conn.commit()
-            
-        except sqlite3.IntegrityError as e:
-            raise ValueError(f"Database constraint violation: {e}")
-        finally:
-            conn.close()
-    
-    def get_admin_stats(self) -> Dict[int, int]:
-        """Get type distribution statistics for admin dashboard."""
-        conn = get_db_connection()
-        try:
-            cur = conn.cursor()
-            cur.execute("SELECT top_type, COUNT(*) FROM results GROUP BY top_type ORDER BY top_type")
-            rows = cur.fetchall()
-            return {int(t): int(c) for t, c in rows}
-        finally:
-            conn.close()
-    
-    def delete_entry_by_token(self, delete_token: str) -> Optional[str]:
-        """
-        Delete an entry by its delete token.
-        
-        Args:
-            delete_token: The delete token
-            
-        Returns:
-            Name of deleted entry, or None if not found
-        """
-        conn = get_db_connection()
-        try:
-            cur = conn.cursor()
-            
-            # Find entry
-            cur.execute("SELECT id, name FROM results WHERE delete_token = ?", (delete_token,))
-            row = cur.fetchone()
-            
-            if not row:
-                return None
-            
-            entry_id, name = row
-            
-            # Delete entry
-            cur.execute("DELETE FROM results WHERE id = ?", (entry_id,))
-            conn.commit()
-            
-            return name
-            
-        finally:
-            conn.close()
-    
-    def export_results_csv(self) -> List[List[str]]:
-        """Export all results as CSV data."""
-        conn = get_db_connection()
-        try:
-            cur = conn.cursor()
-            cur.execute("SELECT id, ts, name, top_type, scores_json FROM results ORDER BY id")
-            rows = cur.fetchall()
-            
-            # Prepare CSV data
-            csv_data = []
-            header = ["id", "timestamp_utc", "name", "top_type"] + [f"type{i}" for i in range(1, 10)]
-            csv_data.append(header)
-            
-            for row in rows:
-                rid, ts, name, top_type, scores_json = row
-                scores = json.loads(scores_json)
-                type_scores = [str(scores.get(str(i), 0)) for i in range(1, 10)]
-                csv_row = [str(rid), ts, name or "", str(top_type)] + type_scores
-                csv_data.append(csv_row)
-            
-            return csv_data
-            
-        finally:
-            conn.close()
-
-    def get_result_by_token(self, delete_token: str) -> Optional[Dict]:
-        """Get quiz result by delete token."""
-        conn = get_db_connection()
-        try:
-            cur = conn.cursor()
-            cur.execute(
-                "SELECT name, top_type, scores_json, validity_json FROM results WHERE delete_token = ?",
-                (delete_token,)
-            )
-            row = cur.fetchone()
-            
-            if not row:
-                return None
-                
-            name, top_type, scores_json, validity_json = row
-            scores = json.loads(scores_json)
-            validity = json.loads(validity_json) if validity_json else {"mean": 3.0, "sd": 1.0}
-            
-            # Convert string keys to integers for scores
-            int_scores = {int(k): v for k, v in scores.items()}
-            
-            # Calculate wings
-            wings = self.calculate_wings(top_type, int_scores)
-            
-            return {
-                "name": name,
-                "top_type": top_type,
-                "scores": int_scores,
-                "validity": validity,
-                "wings": wings
-            }
-            
-        except Exception as e:
-            app_logger.error("Error fetching result by token", exception=e)
-            return None
-        finally:
-            conn.close()
 
 
 # Global service instance

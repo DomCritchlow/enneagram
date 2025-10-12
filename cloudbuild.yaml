@@ -30,9 +30,9 @@ steps:
       - '--service-account'
       - 'enneagram-run@$PROJECT_ID.iam.gserviceaccount.com'
       - '--set-env-vars'
-      - 'DEBUG=false'
+      - 'DEBUG=false,GOOGLE_SHEETS_RANGE=Sheet1!A:Z'
       - '--set-secrets'
-      - 'ADMIN_PASS=admin-password:latest,SECRET_KEY=secret-key:latest'
+      - 'GOOGLE_SERVICE_ACCOUNT_JSON=google-service-account:latest,GOOGLE_SHEETS_ID=google-sheets-id:latest'
 
 # Cloud Build options
 options:

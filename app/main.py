@@ -19,9 +19,7 @@ from core.config import settings
 from core.logging import setup_logging, app_logger
 from core.exceptions import EnneagramException, ValidationError as AppValidationError, create_error_response
 from core.security import SecurityHeaders
-from models.database import db_manager
 from api.quiz import router as quiz_router
-from api.admin import router as admin_router
 
 
 @asynccontextmanager
@@ -31,9 +29,13 @@ async def lifespan(app: FastAPI):
     app_logger.info("Starting Enneagram application...")
     
     try:
-        # Initialize database
-        db_manager.init_database()
-        app_logger.info("Database initialized successfully")
+        # Initialize Google Sheets service (test connection)
+        from services.sheets_service import sheets_service
+        if sheets_service.test_connection():
+            app_logger.info("Google Sheets connection successful")
+            sheets_service.initialize_sheet_headers()
+        else:
+            app_logger.warning("Google Sheets connection failed - results logging may not work")
         
         # Log configuration status
         if settings.debug:
@@ -43,17 +45,12 @@ async def lifespan(app: FastAPI):
         
     except Exception as e:
         app_logger.error("Failed to start application", exception=e)
-        raise
+        # Don't raise - continue without Google Sheets if needed
     
     yield
     
     # Shutdown
     app_logger.info("Shutting down Enneagram application...")
-    try:
-        db_manager.close()
-        app_logger.info("Database connections closed")
-    except Exception as e:
-        app_logger.error("Error during shutdown", exception=e)
 
 
 # Create FastAPI application
@@ -175,7 +172,6 @@ async def internal_server_error_handler(request: Request, exc):
 
 # Include routers
 app.include_router(quiz_router)
-app.include_router(admin_router)
 
 
 # Health check endpoint
@@ -183,15 +179,16 @@ app.include_router(admin_router)
 async def health_check():
     """Basic health check endpoint."""
     try:
-        # Test database connection
-        from services.quiz_service import quiz_service
-        quiz_service.get_admin_stats()  # Simple DB query
+        # Test Google Sheets connection
+        from services.sheets_service import sheets_service
+        sheets_available = sheets_service.test_connection()
         
         return {
             "status": "healthy",
             "service": settings.app_title,
             "version": "2.0.0",
-            "debug": settings.debug
+            "debug": settings.debug,
+            "google_sheets": "available" if sheets_available else "unavailable"
         }
     except Exception as e:
         app_logger.error("Health check failed", exception=e)

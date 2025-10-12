@@ -117,7 +117,6 @@ class EnneagramResult(BaseModel):
     top_type: int = Field(..., ge=1, le=9)
     scores: EnneagramScores
     validity: ValidityStats
-    delete_token: str
     tied_types: Optional[List[int]] = None
     
     class Config:
@@ -141,7 +140,3 @@ class TypeBlurb(BaseModel):
     svg_icon: str = Field(..., min_length=1)
 
 
-class AdminCredentials(BaseModel):
-    """Schema for admin authentication."""
-    username: str = Field(..., min_length=1)
-    password: str = Field(..., min_length=settings.password_min_length)

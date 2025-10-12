@@ -70,23 +70,6 @@ class ApplicationLogger:
         tie_info = " (tied result)" if tied else ""
         self.info(f"Quiz submitted: {name} -> Type {top_type}{tie_info}")
     
-    def log_admin_access(self, username: str, action: str, ip_address: str = "unknown"):
-        """Log admin actions."""
-        self.security_logger.info(f"Admin action: {username} from {ip_address} - {action}")
-    
-    def log_auth_attempt(self, username: str, success: bool, ip_address: str = "unknown"):
-        """Log authentication attempt."""
-        status = "SUCCESS" if success else "FAILED"
-        self.security_logger.info(f"Auth attempt: {username} from {ip_address} - {status}")
-    
-    def log_data_export(self, record_count: int, username: str = "admin"):
-        """Log data export activity."""
-        self.security_logger.info(f"Data export: {record_count} records exported by {username}")
-    
-    def log_quiz_deletion(self, name: str, token: str):
-        """Log quiz deletion activity."""
-        # Only log the name for privacy - don't log the full token
-        self.info(f"Quiz result deleted: {name} (token: {token[:8]}...)")
 
 
 # Global logger instances

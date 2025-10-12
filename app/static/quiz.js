@@ -125,7 +125,6 @@ class EnneagramQuiz {
                             </div>
                             <input type="radio" name="q_${question.id}" value="${value}" ${currentValue == value ? 'checked' : ''}>
                             <div class="option-circle">${value}</div>
-                            <div class="option-number">${value}</div>
                         </label>
                     `).join('')}
                 </div>

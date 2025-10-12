@@ -140,16 +140,10 @@
                 </div>
 
                 <!-- Privacy Section -->
-                {% if delete_token %}
                 <div class="privacy-card">
                     <h3>Data Privacy</h3>
-                    <p>Your results can be deleted anytime using this secure link:</p>
-                    <div class="delete-link">
-                        <code>{{ request.url.scheme }}://{{ request.url.netloc }}/delete/{{ delete_token }}</code>
-                    </div>
-                    <p class="privacy-note">Keep this link safe. Contact your facilitator if you need assistance.</p>
+                    <p class="privacy-note">To view your results again, you'll need to retake the assessment.</p>
                 </div>
-                {% endif %}
             {% endif %}
         </div>
     </div>
@@ -510,9 +504,11 @@
     </style>
 
     <script src="/static/results.js"></script>
+    {% if not show_message_only %}
     <script>
         // Initialize chart data from server
         setChartData({{ scores|tojson }}, {{ top_type }});
     </script>
+    {% endif %}
 </body>
 </html>

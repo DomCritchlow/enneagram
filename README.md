@@ -1,6 +1,6 @@
 # Enneagram Team Assessment
 
-A web application for conducting Enneagram personality assessments within teams. Built with FastAPI for simplicity and professional use.
+A stateless web application for conducting Enneagram personality assessments within teams. Built with FastAPI and Google Sheets integration for privacy and simplicity.
 
 ## Features
 
@@ -14,18 +14,19 @@ A web application for conducting Enneagram personality assessments within teams.
 - Interactive spider chart showing personality profile
 - SVG icons for each personality type
 - Wing analysis (highest wing displayed)
-- Individual result pages with delete tokens
+- One-time result display (completely stateless)
 
 **Privacy & Security**
-- Secure delete tokens for result removal
-- Bcrypt password hashing for admin functions
+- **100% stateless** - no server-side data storage
+- Results displayed once and not retained locally
 - Input sanitization and validation
-- Local data storage
+- Real-time logging to Google Sheets for admin review
 
-**Administration**
-- CSV export of all results
-- Admin dashboard with secure authentication
-- Comprehensive logging system
+**Data Management**
+- Automatic logging to Google Sheets
+- Real-time result collection for administrators
+- No local database or user data storage
+- GDPR-friendly architecture
 
 **Development**
 - Dual question sets (54 full / 9 debug questions)
@@ -38,6 +39,22 @@ A web application for conducting Enneagram personality assessments within teams.
 
 - Python 3.8 or higher
 - pip (Python package installer)
+- Google Cloud account (for Google Sheets integration)
+
+### Google Sheets Setup
+
+1. **Create a Google Sheets spreadsheet** for collecting results
+
+2. **Set up Google Service Account:**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select existing one
+   - Enable the Google Sheets API
+   - Create service account credentials
+   - Download the JSON key file
+
+3. **Share your spreadsheet:**
+   - Share the Google Sheet with the service account email
+   - Grant "Editor" permissions
 
 ### Installation
 
@@ -58,48 +75,59 @@ A web application for conducting Enneagram personality assessments within teams.
    pip install -r requirements.txt
    ```
 
-4. **Run the application**
+4. **Configure environment**
+   ```bash
+   cp env.example .env
+   # Edit .env with your Google Sheets configuration
+   ```
+
+5. **Run the application**
    ```bash
    cd app
    uvicorn main:app --reload --host 0.0.0.0 --port 8000
    ```
 
-5. **Access the application**
+6. **Access the application**
    - Main app: http://localhost:8000
    - Types overview: http://localhost:8000/types
-   - Admin: http://localhost:8000/admin (admin/change-me-please)
+   - Health check: http://localhost:8000/health
 
 ## Configuration
 
 Create a `.env` file in the root directory:
 
 ```env
-# Security
-ADMIN_USER=admin
-ADMIN_PASS=your-secure-password
-SECRET_KEY=your-secret-key
+# Google Sheets Integration (REQUIRED)
+GOOGLE_SERVICE_ACCOUNT_JSON=/path/to/your/service-account.json
+GOOGLE_SHEETS_ID=your_spreadsheet_id_here
+GOOGLE_SHEETS_RANGE=Sheet1!A:Z
 
-# Application
+# Application Settings
 DEBUG=false
 APP_TITLE=Enneagram Team Assessment
-
-# Database
-DATABASE_URL=sqlite:///app/results.sqlite
+QUESTIONS_FILE=questions.json
+BLURBS_FILE=type_blurbs.json
+NAME_MAX_LENGTH=100
 ```
 
-**Important**: Change the default admin password before deployment. The application will refuse to start in production with the default password.
+**Google Sheets ID**: Found in your spreadsheet URL:
+```
+https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                      This is your GOOGLE_SHEETS_ID
+```
 
 ## Usage
 
 **For Participants**
 1. Enter your name and take the 54-question assessment
 2. View results showing your primary type, wing analysis, and spider chart
-3. Use the provided delete token to remove your data anytime
+3. Results are displayed once and not stored on the server
 
 **For Administrators**
-1. Access admin panel at http://localhost:8000/admin
-2. Export CSV data with all results and type scores
-3. Monitor application logs and quiz completions
+1. Results are automatically logged to your Google Sheets in real-time
+2. Access the spreadsheet to view and analyze all assessment data
+3. Use spreadsheet features for filtering, sorting, and exporting data
 
 ## About the Enneagram
 
@@ -130,13 +158,12 @@ DEBUG=true uvicorn main:app --reload --host 0.0.0.0 --port 8000
 QUESTIONS_FILE=questions_short.json uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### Database Management
+### Google Sheets Testing
 
-```bash
-# The database is created automatically on first run
-# To reset the database, simply delete the SQLite file:
-rm app/results.sqlite
-```
+For development, you can:
+1. Use the same Google Sheets setup as production
+2. Create a separate test spreadsheet
+3. Run without Google Sheets (app will log warnings but continue to work)
 
 ### Question Sets
 
@@ -169,10 +196,9 @@ Edit either file to modify questions:
 
 For local production deployment:
 
-1. Set strong admin password in environment
-2. Configure secure secret key  
-3. Set `DEBUG=false`
-4. Use a production WSGI server:
+1. Configure Google Sheets integration in `.env`
+2. Set `DEBUG=false`
+3. Use a production WSGI server:
 
 ```bash
 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
@@ -186,10 +212,18 @@ Build and run with Docker:
 # Build the image
 docker build -t enneagram-app .
 
-# Run the container
+# Run the container with Google Sheets credentials
 docker run -p 8080:8080 \
-  -e ADMIN_PASS=your-secure-password \
-  -e SECRET_KEY=your-secret-key \
+  -e GOOGLE_SERVICE_ACCOUNT_JSON='{"type":"service_account",...}' \
+  -e GOOGLE_SHEETS_ID=your_spreadsheet_id \
+  -e DEBUG=false \
+  enneagram-app
+
+# Or mount the service account file
+docker run -p 8080:8080 \
+  -v /path/to/service-account.json:/app/service-account.json \
+  -e GOOGLE_SERVICE_ACCOUNT_JSON=/app/service-account.json \
+  -e GOOGLE_SHEETS_ID=your_spreadsheet_id \
   -e DEBUG=false \
   enneagram-app
 ```
@@ -201,6 +235,7 @@ docker run -p 8080:8080 \
 1. Install [Google Cloud CLI](https://cloud.google.com/sdk/docs/install)
 2. Authenticate: `gcloud auth login`
 3. Set your project: `gcloud config set project YOUR_PROJECT_ID`
+4. Set up Google Sheets integration with service account
 
 #### Automated Deployment
 
@@ -215,8 +250,8 @@ chmod +x deploy.sh
 ```
 
 The script will:
-- Create required secrets in Secret Manager
-- Enable necessary APIs
+- Create Google Sheets service account secrets in Secret Manager
+- Enable necessary APIs (Cloud Run, Cloud Build, Secret Manager, Sheets API)
 - Set up IAM permissions
 - Build and deploy using Cloud Build
 - Output the service URL
@@ -226,11 +261,11 @@ The script will:
 1. **Create secrets in Secret Manager:**
 
 ```bash
-# Create admin password secret
-echo "your-secure-password" | gcloud secrets create admin-password --data-file=-
+# Create Google service account secret
+gcloud secrets create google-service-account --data-file=path/to/service-account.json
 
-# Create secret key
-python3 -c "import secrets; print(secrets.token_urlsafe(32))" | gcloud secrets create secret-key --data-file=-
+# Create Google Sheets ID secret
+echo "your_spreadsheet_id" | gcloud secrets create google-sheets-id --data-file=-
 ```
 
 2. **Enable required APIs:**
@@ -238,8 +273,9 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))" | gcloud secrets c
 ```bash
 gcloud services enable cloudbuild.googleapis.com
 gcloud services enable run.googleapis.com
-gcloud services enable containerregistry.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
 gcloud services enable secretmanager.googleapis.com
+gcloud services enable sheets.googleapis.com
 ```
 
 3. **Deploy with Cloud Build:**
