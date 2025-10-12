@@ -1,5 +1,7 @@
 # Enneagram Team Assessment
 
+**🌐 Live App:** https://enneagram-app-enneagram-474817-uc.a.run.app
+
 A stateless web application for conducting Enneagram personality assessments within teams. Built with FastAPI and Google Sheets integration for privacy and simplicity.
 
 ## Features
