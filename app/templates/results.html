@@ -199,7 +199,7 @@
                     <a href="/" class="action-btn primary">Take Assessment Again</a>
                     <a href="/types" class="action-btn secondary">View All Types</a>
                     <a href="/" class="action-btn secondary">Back to Home</a>
-                    <button onclick="window.print()" class="action-btn secondary print-btn">🖨️ Print Results</button>
+                    <button onclick="handlePrint()" class="action-btn secondary print-btn">🖨️ Print Results</button>
                 </div>
 
                 <!-- Privacy Section (hidden when printing) -->
@@ -480,6 +480,10 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
         }
         
         .action-btn.primary {
@@ -623,6 +627,15 @@
         .print-btn {
             background: var(--accent) !important;
             color: white !important;
+            cursor: pointer !important;
+            border: none !important;
+            font-family: inherit !important;
+            font-size: inherit !important;
+        }
+        
+        .print-btn:hover {
+            opacity: 0.9 !important;
+            transform: translateY(-2px) !important;
         }
         
         /* Print Styles */
@@ -896,6 +909,16 @@
     {% endif %}
     
     <script>
+        // Handle print functionality with error handling
+        function handlePrint() {
+            try {
+                window.print();
+            } catch (error) {
+                console.error('Print error:', error);
+                alert('Unable to print. Please use your browser\'s print function (Ctrl+P or Cmd+P).');
+            }
+        }
+        
         // Populate print header information
         document.addEventListener('DOMContentLoaded', function() {
             const printDateElement = document.getElementById('printDate');
@@ -917,6 +940,14 @@
                 // Remove query parameters for cleaner URL
                 const baseUrl = window.location.origin;
                 printUrlElement.textContent = baseUrl;
+            }
+        });
+        
+        // Add keyboard shortcut for printing
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                handlePrint();
             }
         });
     </script>
