@@ -1,47 +1,348 @@
 {
   "1": {
-    "name": "1 – Reformer",
-    "summary": "Principled, responsible, improvement-oriented; can become overly critical under stress.",
+    "name": "Type 1 – The Reformer",
+    "nickname": "The Perfectionist",
+    "summary": "Principled, purposeful, self-controlled, and perfectionistic",
+    "detailed_description": "Type Ones are conscientious and ethical, with a strong sense of right and wrong. They are teachers, crusaders, and advocates for change—always striving to improve things, but afraid of making a mistake. Well-organized, orderly, and fastidious, they try to maintain high standards, but can slip into being critical and perfectionistic. They typically have problems with resentment and impatience.",
+    "core_motivation": "To be good, right, perfect, and to improve everything",
+    "basic_fear": "Of being corrupt, evil, or defective",
+    "basic_desire": "To be good, to have integrity, to be balanced",
+    "key_motivations": [
+      "Want to be \"good\" and right",
+      "To strive higher and improve everything",
+      "To be consistent with their ideals",
+      "To justify themselves",
+      "To be beyond criticism so as not to be condemned by anyone"
+    ],
+    "at_their_best": "Wise, discerning, realistic, and noble. Can be morally heroic.",
+    "when_struggling": "Can become critical, perfectionistic, resentful, and impatient with others and themselves.",
+    "workplace_strengths": [
+      "High standards and attention to detail",
+      "Strong work ethic and reliability",
+      "Excellent organizational skills",
+      "Natural ability to see what needs improving",
+      "Principled decision-making"
+    ],
+    "growth_tips": [
+      "Practice self-compassion and recognize that perfection is impossible",
+      "Learn to delegate without micromanaging",
+      "Acknowledge and celebrate progress, not just end results",
+      "Develop flexibility in your standards when appropriate"
+    ],
+    "stress_response": "Move toward Type 4 behaviors - become moody, irrational, and self-critical",
+    "security_response": "Move toward Type 7 behaviors - become more spontaneous, joyful, and optimistic",
+    "wing_influences": {
+      "1w9": "More idealistic, objective, and calm but can be more detached",
+      "1w2": "More helpful, warm, and caring but can be more critical of others"
+    },
+    "famous_examples": "Mahatma Gandhi, Hillary Clinton, Al Gore, Martha Stewart, Confucius",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><rect x='10' y='10' width='60' height='60' rx='8' stroke='currentColor' stroke-width='2' fill='none'/><rect x='20' y='20' width='40' height='40' rx='4' stroke='currentColor' stroke-width='1.5' fill='none'/><circle cx='32' cy='32' r='2' fill='currentColor'/><circle cx='48' cy='32' r='2' fill='currentColor'/><circle cx='32' cy='48' r='2' fill='currentColor'/><circle cx='48' cy='48' r='2' fill='currentColor'/><path d='M30 40h20' stroke='currentColor' stroke-width='1.5'/></svg>"
   },
   "2": {
-    "name": "2 – Helper",
-    "summary": "Empathic, supportive, people-focused; can overextend by prioritizing others.",
+    "name": "Type 2 – The Helper",
+    "nickname": "The Giver",
+    "summary": "Demonstrative, generous, people-pleasing, and possessive",
+    "detailed_description": "Type Twos are empathetic, sincere, and warm-hearted. They are friendly, generous, and self-sacrificing, but can also be sentimental, flattering, and people-pleasing. They are well-meaning and driven to be close to others, but can slip into doing things for others in order to be needed. They typically have problems with possessiveness and with acknowledging their own needs.",
+    "core_motivation": "To feel loved and needed and to express their feelings for others",
+    "basic_fear": "Of being unwanted or unworthy of being loved",
+    "basic_desire": "To feel loved",
+    "key_motivations": [
+      "Want to be loved",
+      "To express their feelings for others",
+      "To be needed and appreciated",
+      "To get others to respond to them",
+      "To vindicate their claims about themselves"
+    ],
+    "at_their_best": "Unselfish and altruistic, they have unconditional love for others.",
+    "when_struggling": "Can become manipulative, possessive, and overly people-pleasing while neglecting their own needs.",
+    "workplace_strengths": [
+      "Excellent interpersonal skills",
+      "Natural ability to motivate and support others",
+      "Strong emotional intelligence",
+      "Creates positive team dynamics",
+      "Intuitive understanding of what others need"
+    ],
+    "growth_tips": [
+      "Learn to identify and express your own needs",
+      "Practice saying 'no' when appropriate",
+      "Develop self-care routines that don't depend on others",
+      "Give without expecting something in return"
+    ],
+    "stress_response": "Move toward Type 8 behaviors - become demanding, controlling, and aggressive",
+    "security_response": "Move toward Type 4 behaviors - become more creative, emotionally honest, and self-aware",
+    "wing_influences": {
+      "2w1": "More responsible, critical, and controlling but also more objective",
+      "2w3": "More ambitious, image-conscious, and driven but also more adaptable"
+    },
+    "famous_examples": "Mother Teresa, Princess Diana, Bishop Desmond Tutu, Eleanor Roosevelt, Nancy Reagan",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 65c-8 0-25-12-25-28 0-8 6-14 14-14 4 0 8 2 11 5 3-3 7-5 11-5 8 0 14 6 14 14 0 16-17 28-25 28z' fill='currentColor' opacity='0.2' stroke='currentColor' stroke-width='2'/><circle cx='30' cy='25' r='3' fill='currentColor'/><circle cx='50' cy='25' r='3' fill='currentColor'/><path d='M25 35c0-3 2-5 5-5h20c3 0 5 2 5 5' stroke='currentColor' stroke-width='1.5' fill='none'/></svg>"
   },
   "3": {
-    "name": "3 – Achiever",
-    "summary": "Driven, adaptable, results-oriented; can over-identify with success and image.",
+    "name": "Type 3 – The Achiever",
+    "nickname": "The Performer",
+    "summary": "Adaptive, excelling, driven, and image-conscious",
+    "detailed_description": "Type Threes are self-assured, attractive, and charming. Ambitious, competent, and energetic, they can also be status-conscious and highly driven for advancement. They are diplomatic and poised, but can also be overly concerned with their image and what others think of them. They typically have problems with workaholism and competitiveness.",
+    "core_motivation": "To feel valuable and worthwhile, to be affirmed, to distinguish themselves from others",
+    "basic_fear": "Of being worthless or without value apart from their achievements",
+    "basic_desire": "To feel valuable and acceptable",
+    "key_motivations": [
+      "Want to be affirmed",
+      "To distinguish themselves from others",
+      "To have attention",
+      "To be admired",
+      "To impress others"
+    ],
+    "at_their_best": "Self-accepting, authentic, everything they seem to be—role models who inspire others.",
+    "when_struggling": "Can become overly competitive, image-obsessed, and disconnected from their authentic feelings.",
+    "workplace_strengths": [
+      "Natural leadership and charisma",
+      "Goal-oriented and results-driven",
+      "Excellent at motivating teams",
+      "Adaptable to different situations",
+      "Strong presentation and communication skills"
+    ],
+    "growth_tips": [
+      "Take time to connect with your authentic feelings and values",
+      "Value being over doing",
+      "Practice vulnerability and admit when you need help",
+      "Focus on collaboration rather than competition"
+    ],
+    "stress_response": "Move toward Type 9 behaviors - become apathetic, disengaged, and procrastinating",
+    "security_response": "Move toward Type 6 behaviors - become more cooperative, committed, and loyal to others",
+    "wing_influences": {
+      "3w2": "More interpersonally focused, charming, and ambitious but can be more image-conscious",
+      "3w4": "More introspective, artistic, and pretentious but also more authentic"
+    },
+    "famous_examples": "Oprah Winfrey, Barack Obama, Tony Robbins, Lady Gaga, Arnold Schwarzenegger",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 15l8 16h18l-14 12 6 18-18-12-18 12 6-18-14-12h18z' fill='currentColor' opacity='0.3' stroke='currentColor' stroke-width='2'/><rect x='35' y='45' width='10' height='20' rx='2' fill='currentColor'/><circle cx='40' cy='40' r='4' fill='currentColor'/><path d='M35 35l5-5 5 5' stroke='currentColor' stroke-width='2' fill='none'/></svg>"
   },
   "4": {
-    "name": "4 – Individualist",
-    "summary": "Authentic, expressive, depth-seeking; can feel misunderstood or withdrawn.",
+    "name": "Type 4 – The Individualist",
+    "nickname": "The Artist",
+    "summary": "Expressive, dramatic, self-absorbed, and temperamental",
+    "detailed_description": "Type Fours are self-aware, sensitive, and reserved. They are emotionally honest, creative, and personal, but can also be moody and self-conscious. Withholding themselves from others due to feeling vulnerable and defective, they can also feel disdainful and exempt from ordinary ways of living. They typically have problems with melancholy, self-indulgence, and self-pity.",
+    "core_motivation": "To find themselves and their significance, to create an identity from their inner experience",
+    "basic_fear": "That they have no identity or personal significance",
+    "basic_desire": "To find themselves and their significance",
+    "key_motivations": [
+      "Want to express themselves and their individuality",
+      "To create and surround themselves with beauty",
+      "To maintain certain moods and feelings",
+      "To withdraw to protect their self-image",
+      "To take care of emotional needs before attending to anything else"
+    ],
+    "at_their_best": "Inspired and highly creative, they are able to renew themselves and transform their experiences.",
+    "when_struggling": "Can become overly dramatic, moody, self-absorbed, and feel fundamentally flawed or different.",
+    "workplace_strengths": [
+      "Deep creativity and innovative thinking",
+      "Authentic and emotionally honest communication",
+      "Ability to see beauty and meaning in situations",
+      "Strong aesthetic sense and attention to authenticity",
+      "Empathy for others who feel different or marginalized"
+    ],
+    "growth_tips": [
+      "Focus on what you have rather than what you lack",
+      "Practice gratitude and appreciation for ordinary moments",
+      "Engage with others rather than withdrawing",
+      "Channel emotions into creative or productive outlets"
+    ],
+    "stress_response": "Move toward Type 2 behaviors - become clingy, dependent, and manipulative",
+    "security_response": "Move toward Type 1 behaviors - become more objective, principled, and self-disciplined",
+    "wing_influences": {
+      "4w3": "More extroverted, ambitious, and image-conscious but also more energetic",
+      "4w5": "More introverted, intellectual, and unconventional but also more withdrawn"
+    },
+    "famous_examples": "Virginia Woolf, Edgar Allan Poe, Frida Kahlo, Bob Dylan, Johnny Depp",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M20 40c0-15 10-25 20-25s20 10 20 25c0 10-5 18-12 22l-8 8-8-8c-7-4-12-12-12-22z' fill='currentColor' opacity='0.1' stroke='currentColor' stroke-width='2'/><path d='M25 30c5-10 15-5 15 0 0-5 10-10 15 0' stroke='currentColor' stroke-width='1.5' fill='none'/><circle cx='32' cy='38' r='1.5' fill='currentColor'/><circle cx='48' cy='38' r='1.5' fill='currentColor'/><path d='M30 50c3 3 7 3 10 0s7-3 10 0' stroke='currentColor' stroke-width='1.5' fill='none'/></svg>"
   },
   "5": {
-    "name": "5 – Investigator",
-    "summary": "Analytical, perceptive, self-sufficient; can detach to conserve energy.",
+    "name": "Type 5 – The Investigator",
+    "nickname": "The Observer",
+    "summary": "Intense, cerebral, perceptive, innovative, secretive, and isolated",
+    "detailed_description": "Type Fives are alert, insightful, and curious. They are able to concentrate and focus on developing complex ideas and skills. Independent, innovative, and inventive, they can also become preoccupied with their thoughts and imaginary constructs. They become detached, yet high-strung and intense. They typically have problems with eccentricity, nihilism, and isolation.",
+    "core_motivation": "To be capable and competent, to understand the environment, to have everything figured out",
+    "basic_fear": "Being useless, helpless, or incapable",
+    "basic_desire": "To be capable and competent",
+    "key_motivations": [
+      "Want to possess knowledge",
+      "To understand the environment",
+      "To have everything figured out as a way of defending the self from threats from the environment"
+    ],
+    "at_their_best": "Visionary pioneers, often ahead of their time, and able to see the world in an entirely new way.",
+    "when_struggling": "Can become isolated, eccentric, nihilistic, and disconnected from practical realities.",
+    "workplace_strengths": [
+      "Deep analytical thinking and problem-solving",
+      "Independent and self-motivated",
+      "Innovative and original thinking",
+      "Excellent research and investigation skills",
+      "Objective and unbiased perspective"
+    ],
+    "growth_tips": [
+      "Practice sharing your knowledge and insights with others",
+      "Engage more with the physical world and your body",
+      "Build trust gradually rather than withdrawing completely",
+      "Remember that competence comes through action, not just thinking"
+    ],
+    "stress_response": "Move toward Type 7 behaviors - become scattered, impulsive, and unfocused",
+    "security_response": "Move toward Type 8 behaviors - become more confident, decisive, and action-oriented",
+    "wing_influences": {
+      "5w4": "More creative, sensitive, and empathetic but also more withdrawn",
+      "5w6": "More practical, loyal, and cautious but also more anxious"
+    },
+    "famous_examples": "Albert Einstein, Stephen Hawking, Bill Gates, Georgia O'Keeffe, Stanley Kubrick",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><circle cx='40' cy='35' r='20' fill='currentColor' opacity='0.1' stroke='currentColor' stroke-width='2'/><circle cx='50' cy='55' r='12' fill='none' stroke='currentColor' stroke-width='2'/><path d='M58 63l8 8' stroke='currentColor' stroke-width='3'/><circle cx='35' cy='30' r='2' fill='currentColor'/><circle cx='45' cy='30' r='2' fill='currentColor'/><path d='M32 40h16' stroke='currentColor' stroke-width='1.5'/><rect x='30' y='12' width='20' height='8' rx='2' fill='currentColor' opacity='0.3'/></svg>"
   },
   "6": {
-    "name": "6 – Loyalist",
-    "summary": "Reliable, vigilant, team-oriented; can worry and seek certainty.",
+    "name": "Type 6 – The Loyalist",
+    "nickname": "The Skeptic",
+    "summary": "Engaging, responsible, anxious, and suspicious",
+    "detailed_description": "Type Sixes are reliable, hard-working, responsible, and trustworthy. Excellent troubleshooters, they foresee problems and foster cooperation, but can also become defensive, evasive, and anxious—running on stress while complaining about it. They can be cautious and indecisive, but also reactive, defiant, and rebellious. They typically have problems with self-doubt and suspicion.",
+    "core_motivation": "To have security and support, to have certitude and reassurance",
+    "basic_fear": "Of being without support or guidance",
+    "basic_desire": "To have security and support",
+    "key_motivations": [
+      "Want to have security",
+      "To feel supported by others",
+      "To have certitude and reassurance",
+      "To test the attitudes of others toward them",
+      "To fight against anxiety and insecurity"
+    ],
+    "at_their_best": "Internally stable and self-reliant, courageously championing themselves and others.",
+    "when_struggling": "Can become anxious, suspicious, reactive, and either overly dependent or rebelliously independent.",
+    "workplace_strengths": [
+      "Excellent team players and loyal colleagues",
+      "Strong troubleshooting and risk assessment skills",
+      "Reliable and responsible in following through",
+      "Good at building consensus and cooperation",
+      "Committed to group values and goals"
+    ],
+    "growth_tips": [
+      "Develop trust in your own judgment and capabilities",
+      "Practice making decisions without seeking excessive reassurance",
+      "Focus on what's working rather than potential problems",
+      "Build confidence through small, consistent actions"
+    ],
+    "stress_response": "Move toward Type 3 behaviors - become competitive, arrogant, and image-focused",
+    "security_response": "Move toward Type 9 behaviors - become more relaxed, optimistic, and trusting",
+    "wing_influences": {
+      "6w5": "More independent, intense, and intellectual but also more withdrawn",
+      "6w7": "More outgoing, fun-loving, and optimistic but also more anxious"
+    },
+    "famous_examples": "Marilyn Monroe, Woody Allen, David Letterman, Meg Ryan, Bruce Springsteen",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 15l15 10v20c0 15-15 25-15 25s-15-10-15-25V25z' fill='currentColor' opacity='0.2' stroke='currentColor' stroke-width='2'/><circle cx='33' cy='35' r='2' fill='currentColor'/><circle cx='47' cy='35' r='2' fill='currentColor'/><path d='M30 45c3-3 7-3 10 0s7 3 10 0' stroke='currentColor' stroke-width='1.5' fill='none'/><path d='M35 25h10' stroke='currentColor' stroke-width='2'/><circle cx='40' cy='50' r='3' fill='currentColor'/></svg>"
   },
   "7": {
-    "name": "7 – Enthusiast",
-    "summary": "Optimistic, versatile, future-oriented; can avoid discomfort or limits.",
+    "name": "Type 7 – The Enthusiast",
+    "nickname": "The Adventurer",
+    "summary": "Spontaneous, versatile, distractible, and scattered",
+    "detailed_description": "Type Sevens are extroverted, optimistic, versatile, and spontaneous. Playful, high-spirited, and practical, they can also misapply their many talents, becoming over-extended, scattered, and undisciplined. They constantly seek new and exciting experiences, but can become distracted and exhausted by staying on the go. They typically have problems with impatience and impulsiveness.",
+    "core_motivation": "To maintain their happiness and satisfaction, to preserve their freedom and avoid pain",
+    "basic_fear": "Of being trapped, deprived, or in pain",
+    "basic_desire": "To maintain their happiness and satisfaction",
+    "key_motivations": [
+      "Want to maintain their freedom and happiness",
+      "To avoid missing out on worthwhile experiences",
+      "To keep themselves excited and occupied",
+      "To avoid and discharge pain"
+    ],
+    "at_their_best": "They focus their talents on worthwhile goals, becoming appreciative, joyous, and satisfied.",
+    "when_struggling": "Can become scattered, impulsive, excessive, and unable to commit or follow through.",
+    "workplace_strengths": [
+      "Innovative and creative problem-solving",
+      "High energy and enthusiasm",
+      "Ability to see possibilities and opportunities",
+      "Excellent at brainstorming and generating ideas",
+      "Positive attitude that motivates others"
+    ],
+    "growth_tips": [
+      "Practice staying present rather than planning the next experience",
+      "Develop discipline to follow through on commitments",
+      "Learn to sit with difficult emotions rather than avoiding them",
+      "Focus deeply on fewer activities rather than juggling many"
+    ],
+    "stress_response": "Move toward Type 1 behaviors - become perfectionistic, critical, and impatient",
+    "security_response": "Move toward Type 5 behaviors - become more focused, profound, and fascinated by learning",
+    "wing_influences": {
+      "7w6": "More responsible, loyal, and anxious but also more grounded",
+      "7w8": "More aggressive, materialistic, and intense but also more decisive"
+    },
+    "famous_examples": "Robin Williams, Jim Carrey, Steven Spielberg, Mozart, John F. Kennedy",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><path d='M40 20c15 0 25 15 20 30-3 10-15 15-20 10-5 5-17 0-20-10-5-15 5-30 20-30z' fill='currentColor' opacity='0.2' stroke='currentColor' stroke-width='2'/><circle cx='32' cy='35' r='2' fill='currentColor'/><circle cx='48' cy='35' r='2' fill='currentColor'/><path d='M30 45c3 5 7 5 10 2s7 3 10-2' stroke='currentColor' stroke-width='1.5' fill='none'/><path d='M25 25l6 6m14-6l6 6m-26 20l6-6m20 0l6 6' stroke='currentColor' stroke-width='1.5'/></svg>"
   },
   "8": {
-    "name": "8 – Challenger",
-    "summary": "Energetic, protective, decisive; can be confrontational or intense.",
+    "name": "Type 8 – The Challenger",
+    "nickname": "The Leader",
+    "summary": "Self-confident, decisive, willful, and confrontational",
+    "detailed_description": "Type Eights are self-confident, strong, and assertive. Protective, resourceful, straight-talking, and decisive, but can also be ego-centric and domineering. Eights feel they must control their environment, especially people, sometimes becoming confrontational and intimidating. They typically have problems with their tempers and with allowing themselves to be vulnerable.",
+    "core_motivation": "To be self-reliant and in control of their own life and destiny",
+    "basic_fear": "Of being controlled or violated by others",
+    "basic_desire": "To be self-reliant and in control of their own life",
+    "key_motivations": [
+      "Want to be self-reliant",
+      "To resist weakness",
+      "To be in control of their environment and destiny",
+      "To stay in charge of their situation"
+    ],
+    "at_their_best": "Self-mastering, they use their strength to improve others' lives, becoming heroic, magnanimous, and inspiring.",
+    "when_struggling": "Can become confrontational, intimidating, and insensitive to others' needs and feelings.",
+    "workplace_strengths": [
+      "Natural leadership and executive ability",
+      "Direct communication and decisive action",
+      "Protective of team members and fairness",
+      "High energy and ability to handle pressure",
+      "Willingness to take on difficult challenges"
+    ],
+    "growth_tips": [
+      "Practice vulnerability and showing your softer side",
+      "Listen more and be open to others' perspectives",
+      "Use your power to empower others, not control them",
+      "Learn to moderate your intensity based on the situation"
+    ],
+    "stress_response": "Move toward Type 5 behaviors - become withdrawn, secretive, and isolated",
+    "security_response": "Move toward Type 2 behaviors - become more caring, helpful, and protective of others",
+    "wing_influences": {
+      "8w7": "More enthusiastic, energetic, and aggressive but also more impulsive",
+      "8w9": "More steady, patient, and supportive but can be more stubborn"
+    },
+    "famous_examples": "Martin Luther King Jr., Franklin D. Roosevelt, Winston Churchill, Toni Morrison, Frank Sinatra",
     "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><rect x='15' y='20' width='50' height='40' rx='6' fill='currentColor' opacity='0.3' stroke='currentColor' stroke-width='3'/><path d='M28 32l4-4 4 4m8-4l4 4 4-4' stroke='currentColor' stroke-width='2' fill='none'/><rect x='30' y='40' width='20' height='6' rx='1' fill='currentColor'/><path d='M20 15l8 8m24-8l-8 8M20 65l8-8m24 8l-8-8' stroke='currentColor' stroke-width='2'/></svg>"
   },
   "9": {
-    "name": "9 – Peacemaker",
-    "summary": "Calm, steady, harmonizing; can minimize priorities to keep peace.",
-    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><circle cx='40' cy='40' r='25' fill='currentColor' opacity='0.1' stroke='currentColor' stroke-width='2'/><circle cx='32' cy='35' r='2' fill='currentColor'/><circle cx='48' cy='35' r='2' fill='currentColor'/><path d='M32 48c2 3 6 3 8 0s6-3 8 0' stroke='currentColor' stroke-width='1.5' fill='none'/><path d='M20 25c5 0 8-3 8-3s3 3 8 3 8-3 8-3 3 3 8 3M20 55c5 0 8 3 8 3s3-3 8-3 8 3 8 3 3-3 8-3' stroke='currentColor' stroke-width='1.5' fill='none'/></svg>"
+    "name": "Type 9 – The Peacemaker",
+    "nickname": "The Mediator",
+    "summary": "Receptive, reassuring, agreeable, and complacent",
+    "detailed_description": "Type Nines are accepting, trusting, and stable. They are usually creative, optimistic, and supportive, but can also be too willing to go along with others to keep the peace. They want everything to go smoothly and be without conflict, but they can also tend to be complacent, simplifying problems and minimizing anything upsetting. They typically have problems with inertia and stubbornness.",
+    "core_motivation": "To create and maintain inner and outer peace, to resist whatever would upset or disturb this peace",
+    "basic_fear": "Of loss of connection and fragmentation",
+    "basic_desire": "To maintain inner and outer peace",
+    "key_motivations": [
+      "Want to create harmony in their environment",
+      "To avoid conflicts and tension",
+      "To preserve things as they are",
+      "To resist whatever would upset or disturb them"
+    ],
+    "at_their_best": "Indomitable and all-embracing, they are able to bring people together and heal conflicts.",
+    "when_struggling": "Can become complacent, stubborn, and passive-aggressive while avoiding important issues.",
+    "workplace_strengths": [
+      "Excellent mediators and consensus builders",
+      "Stable, reliable, and supportive team members",
+      "Ability to see multiple perspectives",
+      "Creates calm, harmonious work environments",
+      "Good at bringing out the best in others"
+    ],
+    "growth_tips": [
+      "Practice asserting your own needs and opinions",
+      "Take initiative rather than waiting for others to act",
+      "Address conflicts directly instead of avoiding them",
+      "Set priorities and stick to them"
+    ],
+    "stress_response": "Move toward Type 6 behaviors - become anxious, worried, and reactive",
+    "security_response": "Move toward Type 3 behaviors - become more focused, energetic, and goal-oriented",
+    "wing_influences": {
+      "9w8": "More assertive, energetic, and direct but can be more stubborn",
+      "9w1": "More principled, organized, and critical but also more rigid"
+    },
+    "famous_examples": "Barack Obama, Queen Elizabeth II, Carl Jung, Ronald Reagan, Abraham Lincoln",
+    "svg_icon": "<svg viewBox='0 0 80 80' fill='none'><circle cx='40' cy='40' r='25' fill='currentColor' opacity='0.1' stroke='currentColor' stroke-width='2'/><circle cx='32' cy='35' r='2' fill='currentColor'/><circle cx='48' cy='35' r='2' fill='currentColor'/><path d='M32 48c2 3 6 3 8 0s6-3 8 0' stroke='currentColor' stroke-width='1.5' fill='none'/><path d='M20 25c5 0 8-3 8-3s3 3 8 3 8-3 8-3s3 3 8 3M20 55c5 0 8 3 8 3s3-3 8-3 8 3 8 3 3-3 8-3' stroke='currentColor' stroke-width='1.5' fill='none'/></svg>"
   }
 }

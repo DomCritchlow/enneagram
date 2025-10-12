@@ -41,12 +41,32 @@
                         </div>
                         
                         <p class="result-description">
-                            {% if type_info and type_info.summary %}
+                            {% if type_info and type_info.detailed_description %}
+                                {{ type_info.detailed_description }}
+                            {% elif type_info and type_info.summary %}
                                 {{ type_info.summary }}
                             {% else %}
                                 Your dominant Enneagram type reflects your core motivations and patterns of thinking, feeling, and behaving.
                             {% endif %}
                         </p>
+                        
+                        {% if type_info and type_info.core_motivation %}
+                        <div class="core-insights">
+                            <div class="insight-item">
+                                <strong>Core Motivation:</strong> {{ type_info.core_motivation }}
+                            </div>
+                            {% if type_info.basic_fear %}
+                            <div class="insight-item">
+                                <strong>Basic Fear:</strong> {{ type_info.basic_fear }}
+                            </div>
+                            {% endif %}
+                            {% if type_info.basic_desire %}
+                            <div class="insight-item">
+                                <strong>Basic Desire:</strong> {{ type_info.basic_desire }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -112,25 +132,57 @@
                     </div>
                 </div>
 
-                <!-- Professional Context Placeholder -->
+                <!-- Professional Insights Section -->
+                {% if type_info and (type_info.workplace_strengths or type_info.growth_tips or type_info.at_their_best) %}
                 <div class="results-card professional-context">
-                    <h2 class="professional-title">Professional Implications</h2>
-                    <div class="professional-content">
-                        <p class="placeholder-text">
-                            <strong>{{ type_info.name if type_info and type_info.name else ('Type ' + top_type|string) }} in the Workplace:</strong>
-                        </p>
-                        <div class="content-placeholder">
-                            <p><em>[Professional context and workplace insights will be added here]</em></p>
-                            <ul class="placeholder-list">
-                                <li>Strengths and natural talents</li>
-                                <li>Growth areas and development opportunities</li>
-                                <li>Communication style and preferences</li>
-                                <li>Leadership approach and team dynamics</li>
-                                <li>Stress responses and management strategies</li>
-                            </ul>
-                        </div>
+                    <h2 class="professional-title">Professional & Personal Growth Insights</h2>
+                    
+                    {% if type_info.at_their_best %}
+                    <div class="insight-section">
+                        <h3>At Your Best</h3>
+                        <p class="insight-description">{{ type_info.at_their_best }}</p>
                     </div>
+                    {% endif %}
+                    
+                    {% if type_info.workplace_strengths %}
+                    <div class="insight-section">
+                        <h3>Workplace Strengths</h3>
+                        <ul class="strength-list">
+                            {% for strength in type_info.workplace_strengths %}
+                            <li>{{ strength }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    {% if type_info.growth_tips %}
+                    <div class="insight-section">
+                        <h3>Growth Opportunities</h3>
+                        <ul class="growth-list">
+                            {% for tip in type_info.growth_tips %}
+                            <li>{{ tip }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    {% if type_info.stress_response or type_info.security_response %}
+                    <div class="insight-section">
+                        <h3>Behavioral Patterns</h3>
+                        {% if type_info.stress_response %}
+                        <div class="behavior-item">
+                            <strong>Under Stress:</strong> {{ type_info.stress_response }}
+                        </div>
+                        {% endif %}
+                        {% if type_info.security_response %}
+                        <div class="behavior-item">
+                            <strong>When Secure:</strong> {{ type_info.security_response }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
                 </div>
+                {% endif %}
 
                 <!-- Actions -->
                 <div class="results-actions">
@@ -462,6 +514,88 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 0;
+        }
+        
+        /* Core Insights Styling */
+        .core-insights {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .insight-item {
+            margin-bottom: 1rem;
+        }
+        
+        .insight-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insight-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Professional Insights Styling */
+        .insight-section {
+            margin-bottom: 2rem;
+        }
+        
+        .insight-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .insight-section h3 {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        .insight-description {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 6px;
+            font-style: italic;
+        }
+        
+        .strength-list, .growth-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .strength-list li, .growth-list li {
+            background: var(--bg-secondary);
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .strength-list li:before {
+            content: "💪";
+            margin-right: 0.5rem;
+        }
+        
+        .growth-list li:before {
+            content: "🌱";
+            margin-right: 0.5rem;
+        }
+        
+        .behavior-item {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            border-radius: 6px;
+        }
+        
+        .behavior-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
         }
         
         @media (max-width: 768px) {

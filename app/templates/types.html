@@ -10,7 +10,12 @@
     <div class="container">
         <div class="types-header">
             <h1>The Nine Enneagram Types</h1>
-            <p>Discover the characteristics, motivations, and patterns of each Enneagram type.</p>
+            <p class="types-intro">
+                The Enneagram reveals nine distinct patterns of thinking, feeling, and acting. Each type represents a unique worldview shaped by core motivations, fears, and desires. Understanding all types enhances empathy, communication, and team collaboration.
+            </p>
+            <p class="types-note">
+                <em>Remember: Everyone has access to all types, but one will resonate as your "home base" - your dominant pattern of motivation and behavior.</em>
+            </p>
             <div class="header-actions">
                 <a href="/" class="action-btn primary">Take Assessment</a>
                 <a href="/" class="action-btn secondary">Home</a>
@@ -42,10 +47,25 @@
                     </div>
                     
                     <div class="type-description">
-                        {% if type_data.summary %}
-                            <p>{{ type_data.summary }}</p>
-                        {% else %}
-                            <p>Learn about the core motivations and patterns of Type {{ type_num }}.</p>
+                        <p class="type-summary">
+                            {% if type_data.summary %}
+                                {{ type_data.summary }}
+                            {% else %}
+                                Learn about the core motivations and patterns of Type {{ type_num }}.
+                            {% endif %}
+                        </p>
+                        
+                        {% if type_data.core_motivation %}
+                        <div class="type-details">
+                            <div class="motivation-item">
+                                <strong>Core Motivation:</strong> {{ type_data.core_motivation }}
+                            </div>
+                            {% if type_data.nickname %}
+                            <div class="nickname-item">
+                                <em>Also known as:</em> {{ type_data.nickname }}
+                            </div>
+                            {% endif %}
+                        </div>
                         {% endif %}
                     </div>
                     
@@ -203,10 +223,52 @@
             margin-bottom: 1.5rem;
         }
         
-        .type-description p {
+        .type-summary {
             color: var(--text-secondary);
             line-height: 1.6;
-            margin: 0;
+            margin: 0 0 1rem 0;
+        }
+        
+        .type-details {
+            margin-top: 1rem;
+        }
+        
+        .motivation-item {
+            background: var(--bg-secondary);
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .motivation-item strong {
+            color: var(--accent);
+        }
+        
+        .nickname-item {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Enhanced header styling */
+        .types-intro {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .types-note {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .types-note em {
+            color: var(--text-primary);
+            font-style: normal;
         }
         
         .type-details {
