@@ -110,13 +110,6 @@ BLURBS_FILE=type_blurbs.json
 NAME_MAX_LENGTH=100
 ```
 
-**Google Sheets ID**: Found in your spreadsheet URL:
-```
-https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                                      This is your GOOGLE_SHEETS_ID
-```
-
 ## Usage
 
 **For Participants**
