@@ -267,6 +267,8 @@ docker run -p 8080:8080 \
 
 ### Google Cloud Run
 
+**🔗 URL Generation:** Cloud Run generates unique URLs with random suffixes (e.g., `w34l2h6gva-uc`). The deployment script will automatically retrieve and display the actual service URL after deployment.
+
 #### Prerequisites
 
 1. Install [Google Cloud CLI](https://cloud.google.com/sdk/docs/install)
@@ -291,7 +293,7 @@ The script will:
 - Enable necessary APIs (Cloud Run, Cloud Build, Secret Manager, Sheets API)
 - Set up IAM permissions
 - Build and deploy using Cloud Build
-- Output the service URL
+- Automatically retrieve and display the actual service URL
 
 #### Manual Deployment
 

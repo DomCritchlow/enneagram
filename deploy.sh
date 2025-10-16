@@ -115,11 +115,16 @@ echo -e "${YELLOW}Starting deployment...${NC}"
 gcloud builds submit --config cloudbuild.yaml --project=$PROJECT_ID
 
 echo -e "${GREEN}Deployment completed!${NC}"
-echo -e "${YELLOW}Your app should be available at:${NC}"
-echo "https://enneagram-app-$(echo $PROJECT_ID | tr ':' '-')-uc.a.run.app"
 
 # Get the actual service URL
 SERVICE_URL=$(gcloud run services describe enneagram-app --region=us-central1 --project=$PROJECT_ID --format="value(status.url)" 2>/dev/null || echo "")
 if [ -n "$SERVICE_URL" ]; then
-    echo -e "${GREEN}Actual service URL: $SERVICE_URL${NC}"
+    echo -e "${GREEN}🌐 Your app is live at: $SERVICE_URL${NC}"
+    echo -e "${YELLOW}📋 Service Details:${NC}"
+    echo "   • Project: $PROJECT_ID"
+    echo "   • Region: us-central1"
+    echo "   • Service: enneagram-app"
+else
+    echo -e "${RED}❌ Could not retrieve service URL. Check deployment status manually.${NC}"
+    echo "   Run: gcloud run services list --project=$PROJECT_ID"
 fi
