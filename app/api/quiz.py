@@ -240,7 +240,7 @@ async def submit_quiz(request: Request, name: str = Form(...), consent: str = Fo
 
 # Simple in-memory cache for team data
 team_cache = {}
-CACHE_DURATION = timedelta(minutes=5)  # Cache for 5 minutes
+CACHE_DURATION = timedelta(minutes=1)  # Cache for 1 minute
 
 
 def calculate_team_stats(team_data: List[Dict[str, Any]], team_name: str) -> TeamStats:
