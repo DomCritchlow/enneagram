@@ -10,6 +10,7 @@ class EnneagramQuiz {
         this.questionsPerPage = 3;
         this.responses = {};
         this.userName = '';
+        this.teamName = '';
         this.questionsLoaded = false;
         this.isSubmitting = false;
         
@@ -22,6 +23,7 @@ class EnneagramQuiz {
         this.landingSection = document.getElementById('landingSection');
         this.quizSection = document.getElementById('quizSection');
         this.nameInput = document.getElementById('nameInput');
+        this.teamInput = document.getElementById('teamInput');
         this.startBtn = document.getElementById('startBtn');
         this.nextBtn = document.getElementById('nextBtn');
         this.userNameSpan = document.getElementById('userName');
@@ -64,7 +66,18 @@ class EnneagramQuiz {
             this.updateStartButton();
         });
 
+        this.teamInput.addEventListener('input', () => {
+            this.validateTeamInput();
+            this.updateStartButton();
+        });
+
         this.nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !this.startBtn.disabled) {
+                this.startQuiz();
+            }
+        });
+
+        this.teamInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !this.startBtn.disabled) {
                 this.startQuiz();
             }
@@ -74,15 +87,41 @@ class EnneagramQuiz {
         this.nextBtn.addEventListener('click', () => this.nextPage());
     }
 
+    validateTeamInput() {
+        const team = this.teamInput.value.trim();
+        
+        // Remove any invalid characters (keep only letters and numbers)
+        const cleanTeam = team.toLowerCase().replace(/[^a-z0-9]/g, '');
+        
+        if (team !== cleanTeam) {
+            this.teamInput.value = cleanTeam;
+        }
+        
+        // Show validation feedback
+        if (team.length > 0 && (team.length < 3 || team.length > 20)) {
+            this.teamInput.style.borderColor = '#e74c3c';
+        } else {
+            this.teamInput.style.borderColor = '';
+        }
+    }
+
     updateStartButton() {
         const name = this.nameInput.value.trim();
+        const team = this.teamInput.value.trim();
+        
         const nameValid = name.length >= 2;
-        this.startBtn.disabled = !nameValid || !this.questionsLoaded;
+        const teamValid = team.length === 0 || (team.length >= 3 && team.length <= 20);
+        
+        this.startBtn.disabled = !nameValid || !teamValid || !this.questionsLoaded;
     }
 
     startQuiz() {
         this.userName = this.nameInput.value.trim();
-        if (!this.userName || !this.questionsLoaded || this.questions.length === 0) return;
+        this.teamName = this.teamInput.value.trim();
+        
+        // Validate inputs before starting
+        const teamValid = this.teamName.length === 0 || (this.teamName.length >= 3 && this.teamName.length <= 20);
+        if (!this.userName || !teamValid || !this.questionsLoaded || this.questions.length === 0) return;
 
         this.userNameSpan.textContent = this.userName;
         
@@ -198,6 +237,9 @@ class EnneagramQuiz {
 
             const formData = new FormData();
             formData.append('name', this.userName);
+            if (this.teamName) {
+                formData.append('team', this.teamName);
+            }
             formData.append('consent', 'yes');
 
             // Add all responses

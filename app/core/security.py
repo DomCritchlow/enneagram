@@ -1,7 +1,6 @@
 """
 Security utilities for the Enneagram application.
 """
-import secrets
 
 
 def sanitize_input(text: str, max_length: int = 1000) -> str:
@@ -32,10 +31,10 @@ class SecurityHeaders:
         }
         
         if debug_mode:
-            # Relaxed headers for local development
+            # Relaxed headers for local development - allow FastAPI docs
             headers.update({
                 "X-Frame-Options": "SAMEORIGIN",  # Allow framing from same origin
-                "Content-Security-Policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+                "Content-Security-Policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com; font-src 'self' data:",
             })
         else:
             # Strict headers for production

@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     
     # Application
     debug: bool = Field(default=False, description="Debug mode")
+    disable_caching: bool = Field(default=False, description="Disable caching for development (when True, team stats always refresh)")
     app_title: str = Field(default="Enneagram (Team Use)", description="Application title")
     
     # Production settings

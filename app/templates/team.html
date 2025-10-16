@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ team_stats.team_name|title }} Team Analysis - Enneagram Assessment</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .team-header {
+            background: linear-gradient(135deg, var(--accent), #b8936b);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 16px;
+        }
+
+        .team-name {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .team-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .type-distribution {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .distribution-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .distribution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .type-item {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .type-item.has-members {
+            border-color: var(--accent);
+            background: #f9f7f4;
+        }
+
+        .type-item.dominant {
+            background: var(--accent);
+            color: white;
+        }
+
+        .type-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .type-name {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .type-count {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .type-percentage {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .insights-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .insight-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .insight-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .insight-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insight-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .insight-list li:last-child {
+            border-bottom: none;
+        }
+
+        .type-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .balance-score {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .balance-meter {
+            position: relative;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .balance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .balance-text {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .navigation-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: #997a5e;
+            transform: translateY(-2px);
+        }
+
+        .empty-team {
+            text-align: center;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .team-name {
+                font-size: 2rem;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .distribution-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+
+            .type-item {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .insights-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Team Header -->
+        <div class="team-header">
+            <h1 class="team-name">{{ team_stats.team_name }}</h1>
+            <p class="team-subtitle">Team Enneagram Analysis</p>
+        </div>
+
+        {% if team_stats.total_members > 0 %}
+            <!-- Stats Overview -->
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-number">{{ team_stats.total_members }}</div>
+                    <div class="stat-label">Team Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ 9 - team_stats.missing_types|length }}</div>
+                    <div class="stat-label">Types Represented</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ team_stats.balance_score }}%</div>
+                    <div class="stat-label">Balance Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ team_stats.dominant_types|length }}</div>
+                    <div class="stat-label">Dominant Types</div>
+                </div>
+            </div>
+
+            <!-- Type Distribution -->
+            <div class="type-distribution">
+                <div class="distribution-header">
+                    <h2>Type Distribution</h2>
+                    <p>How your team members are distributed across the 9 Enneagram types</p>
+                </div>
+                <div class="distribution-grid">
+                    {% for type_data in team_stats.type_distribution %}
+                    <div class="type-item {% if type_data.count > 0 %}has-members{% endif %} {% if type_data.type_number in team_stats.dominant_types %}dominant{% endif %}">
+                        <div class="type-number">{{ type_data.type_number }}</div>
+                        <div class="type-name">{{ type_data.type_name }}</div>
+                        <div class="type-count">{{ type_data.count }} {% if type_data.count == 1 %}member{% else %}members{% endif %}</div>
+                        <div class="type-percentage">({{ type_data.percentage }}%)</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Balance Score -->
+            <div class="balance-score">
+                <h2>Team Balance</h2>
+                <div class="balance-meter">
+                    <div class="balance-fill" style="width: {{ team_stats.balance_score }}%;"></div>
+                </div>
+                <div class="stat-number">{{ team_stats.balance_score }}%</div>
+                {% if team_stats.has_good_balance %}
+                <p class="balance-text">Great! Your team has good type diversity and balance.</p>
+                {% else %}
+                <p class="balance-text">Your team could benefit from more type diversity for optimal collaboration.</p>
+                {% endif %}
+            </div>
+
+            <!-- Insights -->
+            <div class="insights-section">
+                {% if team_stats.missing_types %}
+                <div class="insight-card">
+                    <h3 class="insight-title">Missing Perspectives</h3>
+                    <p>These types are not represented on your team:</p>
+                    <div style="margin-top: 1rem;">
+                        {% for type_num in team_stats.missing_types %}
+                        <span class="type-tag">Type {{ type_num }}</span>
+                        {% endfor %}
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        Consider how these missing perspectives might affect team dynamics and decision-making.
+                    </p>
+                </div>
+                {% endif %}
+
+                {% if team_stats.underrepresented_types %}
+                <div class="insight-card">
+                    <h3 class="insight-title">Underrepresented Types</h3>
+                    <p>These types have only one representative:</p>
+                    <div style="margin-top: 1rem;">
+                        {% for type_num in team_stats.underrepresented_types %}
+                        <span class="type-tag">Type {{ type_num }}</span>
+                        {% endfor %}
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        These team members may feel isolated or their perspectives may be overlooked.
+                    </p>
+                </div>
+                {% endif %}
+
+                {% if team_stats.dominant_types %}
+                <div class="insight-card">
+                    <h3 class="insight-title">Dominant Types</h3>
+                    <p>These types have strong representation:</p>
+                    <div style="margin-top: 1rem;">
+                        {% for type_num in team_stats.dominant_types %}
+                        <span class="type-tag">Type {{ type_num }}</span>
+                        {% endfor %}
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        Your team may naturally lean toward these types' perspectives and approaches.
+                    </p>
+                </div>
+                {% endif %}
+
+                <div class="insight-card">
+                    <h3 class="insight-title">Team Recommendations</h3>
+                    <ul class="insight-list">
+                        {% if team_stats.balance_score < 40 %}
+                        <li>🎯 Focus on understanding and leveraging your dominant types' strengths</li>
+                        <li>🔄 Create processes to gather input from underrepresented perspectives</li>
+                        {% elif team_stats.balance_score < 70 %}
+                        <li>⚖️ Work on balancing different perspectives in decision-making</li>
+                        <li>🤝 Encourage collaboration between different types</li>
+                        {% else %}
+                        <li>🌟 Excellent type diversity! Leverage this for well-rounded decisions</li>
+                        <li>💪 Focus on helping team members understand each other's approaches</li>
+                        {% endif %}
+                        <li>📚 Consider team workshops on Enneagram types for better understanding</li>
+                        <li>🎪 Use type awareness to improve communication and reduce conflicts</li>
+                    </ul>
+                </div>
+            </div>
+
+        {% else %}
+            <!-- Empty Team State -->
+            <div class="empty-team">
+                <div class="empty-icon">📊</div>
+                <h2>No Team Data Yet</h2>
+                <p>The "{{ team_stats.team_name }}" team doesn't have any assessment results yet.</p>
+                <p>Team members can take the assessment by:</p>
+                <ol style="text-align: left; display: inline-block; margin-top: 1rem;">
+                    <li>Going to the <a href="/">assessment homepage</a></li>
+                    <li>Entering their name and team name: <strong>{{ team_stats.team_name }}</strong></li>
+                    <li>Completing the assessment</li>
+                </ol>
+            </div>
+        {% endif %}
+
+        <!-- Navigation -->
+        <div class="navigation-section">
+            <a href="/" class="nav-button">Take Assessment</a>
+            <a href="/types" class="nav-button">View All Types</a>
+        </div>
+    </div>
+
+    <script>
+        // Animate balance meter on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const balanceFill = document.querySelector('.balance-fill');
+            if (balanceFill) {
+                balanceFill.style.width = '0%';
+                setTimeout(() => {
+                    balanceFill.style.width = '{{ team_stats.balance_score }}%';
+                }, 500);
+            }
+
+            // Animate type items
+            const typeItems = document.querySelectorAll('.type-item');
+            typeItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

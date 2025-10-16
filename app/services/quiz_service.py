@@ -127,13 +127,14 @@ class QuizService:
         else:
             return {'wing': wings[1], 'wing_score': right_score}
     
-    def process_quiz_submission(self, name: str, quiz_answers: Dict[str, int]) -> EnneagramResult:
+    def process_quiz_submission(self, name: str, quiz_answers: Dict[str, int], team: Optional[str] = None) -> EnneagramResult:
         """
         Process a complete quiz submission and return results.
         
         Args:
             name: User's name (sanitized)
             quiz_answers: Dictionary of question responses
+            team: Optional team name (sanitized)
             
         Returns:
             EnneagramResult object
@@ -165,6 +166,7 @@ class QuizService:
         # Create result object
         result = EnneagramResult(
             name=clean_name,
+            team=team,
             top_type=top_type,
             scores=EnneagramScores.from_dict(type_scores),
             validity=validity,

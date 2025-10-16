@@ -8,32 +8,51 @@ A stateless web application for conducting Enneagram personality assessments wit
 
 **Quiz Experience**
 - Progressive question flow (3 questions per page)
-- 54 comprehensive questions for accurate assessment
-- Mobile-responsive interface
+- Question randomization for fresh assessment experience
+- 54 comprehensive questions for accurate assessment (or 9 for development)
+- Mobile-responsive interface with modern UI
 - Real-time progress tracking
+- Optional team affiliation input
 
 **Results & Visualization**
 - Interactive spider chart showing personality profile
 - SVG icons for each personality type
 - Wing analysis (highest wing displayed)
 - One-time result display (completely stateless)
+- Direct link to team results (when team specified)
+
+**Team Analytics**
+- Team-based assessment aggregation
+- Team composition analysis and statistics
+- Balance scoring and insights
+- Public team dashboard at `/team/{team-name}`
+- Smart caching with development override
+
+**Types Reference**
+- Comprehensive overview of all 9 Enneagram types
+- Interactive expand/collapse for detailed information
+- Type strengths and growth areas
+- Professional iconography and descriptions
 
 **Privacy & Security**
 - **100% stateless** - no server-side data storage
 - Results displayed once and not retained locally
 - Input sanitization and validation
+- Content Security Policy protection
 - Real-time logging to Google Sheets for admin review
 
 **Data Management**
-- Automatic logging to Google Sheets
+- Automatic logging to Google Sheets with team information
 - Real-time result collection for administrators
 - No local database or user data storage
 - GDPR-friendly architecture
 
-**Development**
+**Developer Experience**
 - Dual question sets (54 full / 9 debug questions)
+- Interactive API documentation (`/docs`, `/redoc`)
 - Environment-based configuration
 - Fast development testing mode
+- Comprehensive logging and health checks
 
 ## Quick Start
 
@@ -92,7 +111,9 @@ A stateless web application for conducting Enneagram personality assessments wit
 6. **Access the application**
    - Main app: http://localhost:8000
    - Types overview: http://localhost:8000/types
+   - API documentation: http://localhost:8000/docs
    - Health check: http://localhost:8000/health
+   - Team analytics: http://localhost:8000/team/{team-name}
 
 ## Configuration
 
@@ -110,19 +131,34 @@ APP_TITLE=Enneagram Team Assessment
 QUESTIONS_FILE=questions.json
 BLURBS_FILE=type_blurbs.json
 NAME_MAX_LENGTH=100
+
+# Team Features
+DISABLE_CACHING=false  # Set to true in development for immediate team updates
+
+# Development Settings
+# QUESTIONS_FILE=questions_short.json  # Uncomment for 9-question testing mode
 ```
 
 ## Usage
 
 **For Participants**
-1. Enter your name and take the 54-question assessment
-2. View results showing your primary type, wing analysis, and spider chart
-3. Results are displayed once and not stored on the server
+1. Enter your name and optionally specify a team name (3-20 characters, letters/numbers only)
+2. Take the randomized 54-question assessment (questions appear in different order each time)
+3. View results showing your primary type, wing analysis, and interactive spider chart
+4. If you specified a team, click the team link to see aggregated team results
+5. Results are displayed once and not stored on the server
+
+**For Teams**
+1. All team members use the same team name during assessment
+2. Visit `/team/{team-name}` to view team composition and analytics
+3. See type distribution, balance scores, and team insights
+4. Team pages are publicly accessible but show only aggregated, anonymous data
 
 **For Administrators**
-1. Results are automatically logged to your Google Sheets in real-time
-2. Access the spreadsheet to view and analyze all assessment data
+1. Results are automatically logged to your Google Sheets in real-time with team information
+2. Access the spreadsheet to view and analyze all individual assessment data
 3. Use spreadsheet features for filtering, sorting, and exporting data
+4. Team column allows grouping and analysis by organizational unit
 
 ## About the Enneagram
 
@@ -151,6 +187,12 @@ DEBUG=true uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 # Use short question set for fast debugging (9 questions vs 54)
 QUESTIONS_FILE=questions_short.json uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# Disable team caching for immediate updates during development
+DISABLE_CACHING=true uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# Combined development settings
+DEBUG=true QUESTIONS_FILE=questions_short.json DISABLE_CACHING=true uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### Google Sheets Testing

@@ -74,12 +74,20 @@
                         {% if type_data.workplace_strengths %}
                         <div class="preview-section">
                             <h4>Key Strengths</h4>
-                            <ul class="preview-list">
+                            <ul class="preview-list" data-section="strengths" data-type="{{ type_num }}">
                                 {% for strength in type_data.workplace_strengths[:3] %}
-                                <li>{{ strength }}</li>
+                                <li class="visible-item">{{ strength }}</li>
+                                {% endfor %}
+                                {% for strength in type_data.workplace_strengths[3:] %}
+                                <li class="hidden-item" style="display: none;">{{ strength }}</li>
                                 {% endfor %}
                                 {% if type_data.workplace_strengths|length > 3 %}
-                                <li><em>...and {{ type_data.workplace_strengths|length - 3 }} more</em></li>
+                                <li class="expand-trigger">
+                                    <button class="expand-btn" data-section="strengths" data-type="{{ type_num }}">
+                                        <span class="expand-text">+{{ type_data.workplace_strengths|length - 3 }} more</span>
+                                        <span class="collapse-text" style="display: none;">show less</span>
+                                    </button>
+                                </li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -88,12 +96,20 @@
                         {% if type_data.growth_tips %}
                         <div class="preview-section">
                             <h4>Growth Areas</h4>
-                            <ul class="preview-list">
+                            <ul class="preview-list" data-section="growth" data-type="{{ type_num }}">
                                 {% for tip in type_data.growth_tips[:2] %}
-                                <li>{{ tip }}</li>
+                                <li class="visible-item">{{ tip }}</li>
+                                {% endfor %}
+                                {% for tip in type_data.growth_tips[2:] %}
+                                <li class="hidden-item" style="display: none;">{{ tip }}</li>
                                 {% endfor %}
                                 {% if type_data.growth_tips|length > 2 %}
-                                <li><em>...and {{ type_data.growth_tips|length - 2 }} more</em></li>
+                                <li class="expand-trigger">
+                                    <button class="expand-btn" data-section="growth" data-type="{{ type_num }}">
+                                        <span class="expand-text">+{{ type_data.growth_tips|length - 2 }} more</span>
+                                        <span class="collapse-text" style="display: none;">show less</span>
+                                    </button>
+                                </li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -330,6 +346,30 @@
         
         .preview-list li em {
             color: var(--text-muted);
+        }
+        
+        .expand-trigger {
+            margin-top: 0.5rem;
+        }
+        
+        .expand-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0.2rem 0;
+            text-decoration: underline;
+            transition: opacity 0.3s ease;
+            font-style: italic;
+        }
+        
+        .expand-btn:hover {
+            opacity: 0.7;
+        }
+        
+        .expand-btn:before {
+            display: none;
         }
         
         .navigation-footer {

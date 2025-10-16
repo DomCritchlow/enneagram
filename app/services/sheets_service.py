@@ -94,10 +94,11 @@ class SheetsService:
             timestamp = datetime.utcnow().isoformat()
             scores_dict = result.scores.to_dict()
             
-            # Create row: timestamp, name, top_type, type1_score, type2_score, ..., type9_score, validity_mean, validity_sd
+            # Create row: timestamp, name, team, top_type, type1_score, type2_score, ..., type9_score, validity_mean, validity_sd
             row_data = [
                 timestamp,
                 result.name,
+                result.team or "NA",  # Use "NA" if no team specified
                 result.top_type,
             ]
             
@@ -163,7 +164,8 @@ class SheetsService:
             # Add headers
             headers = [
                 'Timestamp (UTC)',
-                'Name', 
+                'Name',
+                'Team',
                 'Top Type',
                 'Type 1 Score',
                 'Type 2 Score', 
@@ -185,7 +187,7 @@ class SheetsService:
             
             service.spreadsheets().values().update(
                 spreadsheetId=settings.google_sheets_id,
-                range='A1:O1',
+                range='A1:P1',  # Extended to P1 to include Team column
                 valueInputOption='RAW',
                 body=body
             ).execute()
@@ -219,6 +221,123 @@ class SheetsService:
             
         except Exception as e:
             app_logger.error(f"Google Sheets connection test failed: {e}")
+            return False
+    
+    def get_team_data(self, team_name: str) -> List[Dict[str, Any]]:
+        """
+        Get all data for a specific team.
+        
+        Args:
+            team_name: Name of the team to get data for
+            
+        Returns:
+            List of dictionaries containing team member data
+        """
+        service = self._get_service()
+        if not service:
+            app_logger.error("Google Sheets service not available")
+            return []
+        
+        try:
+            # Get all data from the sheet
+            result = service.spreadsheets().values().get(
+                spreadsheetId=settings.google_sheets_id,
+                range=settings.google_sheets_range
+            ).execute()
+            
+            values = result.get('values', [])
+            if not values:
+                return []
+            
+            # First row should be headers
+            headers = values[0]
+            team_data = []
+            
+            # Find team column index
+            team_col_index = None
+            try:
+                team_col_index = headers.index('Team')
+            except ValueError:
+                app_logger.error("Team column not found in spreadsheet")
+                return []
+            
+            # Process data rows
+            for row in values[1:]:  # Skip header row
+                if len(row) > team_col_index and row[team_col_index].lower() == team_name.lower():
+                    # Create dictionary from row data
+                    row_dict = {}
+                    for i, header in enumerate(headers):
+                        row_dict[header] = row[i] if i < len(row) else ''
+                    team_data.append(row_dict)
+            
+            app_logger.info(f"Retrieved {len(team_data)} records for team {team_name}")
+            return team_data
+            
+        except Exception as e:
+            app_logger.error(f"Failed to get team data: {e}")
+            return []
+    
+    def migrate_existing_entries(self) -> bool:
+        """
+        Add 'NA' to the Team column for existing entries that don't have it.
+        This is a one-time migration function.
+        
+        Returns:
+            True if successful, False otherwise
+        """
+        service = self._get_service()
+        if not service:
+            app_logger.error("Google Sheets service not available")
+            return False
+        
+        try:
+            # Get all data from the sheet
+            result = service.spreadsheets().values().get(
+                spreadsheetId=settings.google_sheets_id,
+                range=settings.google_sheets_range
+            ).execute()
+            
+            values = result.get('values', [])
+            if not values:
+                return True  # No data to migrate
+            
+            headers = values[0]
+            
+            # Check if Team column already exists
+            if 'Team' in headers:
+                app_logger.info("Team column already exists, no migration needed")
+                return True
+            
+            # Insert Team column after Name column
+            name_col_index = headers.index('Name') if 'Name' in headers else 1
+            team_col_index = name_col_index + 1
+            
+            # Update headers
+            headers.insert(team_col_index, 'Team')
+            
+            # Update all data rows to include 'NA' in team column
+            for i, row in enumerate(values[1:], start=1):
+                while len(row) < team_col_index:
+                    row.append('')
+                row.insert(team_col_index, 'NA')
+            
+            # Update the entire sheet with migrated data
+            body = {
+                'values': values
+            }
+            
+            service.spreadsheets().values().update(
+                spreadsheetId=settings.google_sheets_id,
+                range=settings.google_sheets_range,
+                valueInputOption='RAW',
+                body=body
+            ).execute()
+            
+            app_logger.info("Successfully migrated existing entries with Team column")
+            return True
+            
+        except Exception as e:
+            app_logger.error(f"Failed to migrate existing entries: {e}")
             return False
 
 

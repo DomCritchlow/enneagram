@@ -190,6 +190,16 @@
                     <a href="/" class="action-btn secondary">Back to Home</a>
                 </div>
 
+                <!-- Team Link (if part of a team) -->
+                {% if team %}
+                <div class="team-link-section">
+                    <p class="team-link-text">
+                        <span class="team-icon">👥</span>
+                        View your <a href="/team/{{ team }}" class="team-link">{{ team|title }} team's results</a>
+                    </p>
+                </div>
+                {% endif %}
+
                 <!-- Privacy Section -->
                 <div class="privacy-card">
                     <h3>Data Privacy</h3>
@@ -596,7 +606,37 @@
             margin-bottom: 0.5rem;
         }
         
+        .team-link-section {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
         
+        .team-link-text {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+        
+        .team-icon {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .team-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        
+        .team-link:hover {
+            text-decoration: underline;
+            color: #8b7355;
+        }
+
         @media (max-width: 768px) {
             .wing-display {
                 flex-direction: column;

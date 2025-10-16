@@ -11,6 +11,7 @@ from core.config import settings
 class QuizSubmission(BaseModel):
     """Schema for quiz submission validation."""
     name: str = Field(..., min_length=1, max_length=settings.name_max_length)
+    team: Optional[str] = None
     consent: str = Field(..., pattern=r'^yes$')
     
     @field_validator('name')
@@ -21,6 +22,24 @@ class QuizSubmission(BaseModel):
         # Allow alphanumeric, spaces, hyphens, underscores only
         if not re.match(r'^[a-zA-Z0-9\s_-]+$', v):
             raise ValueError('Name can only contain letters, numbers, spaces, hyphens, and underscores')
+        return v
+    
+    @field_validator('team')
+    @classmethod
+    def validate_team(cls, v):
+        """Validate and clean team name input."""
+        if v is None or v == '':
+            return None
+        
+        v = v.strip().lower()
+        
+        # Must be 3-20 characters, letters and numbers only
+        if not re.match(r'^[a-z0-9]+$', v):
+            raise ValueError('Team name can only contain letters and numbers')
+        
+        if len(v) < 3 or len(v) > 20:
+            raise ValueError('Team name must be 3-20 characters long')
+        
         return v
 
 
@@ -114,6 +133,7 @@ class ValidityStats(BaseModel):
 class EnneagramResult(BaseModel):
     """Schema for complete Enneagram result."""
     name: str
+    team: Optional[str] = None
     top_type: int = Field(..., ge=1, le=9)
     scores: EnneagramScores
     validity: ValidityStats
@@ -138,5 +158,29 @@ class TypeBlurb(BaseModel):
     name: str = Field(..., min_length=1)
     summary: str = Field(..., min_length=1)
     svg_icon: str = Field(..., min_length=1)
+
+
+class TeamTypeCount(BaseModel):
+    """Schema for team type distribution."""
+    type_number: int = Field(..., ge=1, le=9)
+    type_name: str
+    count: int = Field(..., ge=0)
+    percentage: float = Field(..., ge=0, le=100)
+
+
+class TeamStats(BaseModel):
+    """Schema for team statistics and analysis."""
+    team_name: str
+    total_members: int = Field(..., ge=0)
+    type_distribution: List[TeamTypeCount]
+    missing_types: List[int] = Field(..., description="Types with 0 members")
+    underrepresented_types: List[int] = Field(..., description="Types with only 1 member")
+    dominant_types: List[int] = Field(..., description="Types with highest representation")
+    balance_score: float = Field(..., ge=0, le=100, description="How evenly distributed the team is")
+    
+    @property
+    def has_good_balance(self) -> bool:
+        """Check if team has good type balance (score > 60)."""
+        return self.balance_score > 60.0
 
 
